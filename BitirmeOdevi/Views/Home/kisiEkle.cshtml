@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "kisiEkle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form method="post" action="/Home/Kaydet">
+
+    <div class="form-group row">
+        <div class="col align-items-start  h-25 ">
+            <div class="row">
+
+                <div class="col align-items-start  h-25 ">
+                    <label>Ad</label>
+                </div>
+                <div class="col align-items-start h-25 ">
+                    <input type="text" class="form-control" name="ad"/>
+                </div>
+                <div class="w-100 mb-1"></div>
+
+                <div class="col align-items-start  h-25 ">
+                    <label>Soyad</label>
+                </div>
+                <div class="col align-items-start h-25 ">
+                    <input type="text" class="form-control" name="soyad" />
+                </div>
+                <div class="w-100 mb-1"></div>
+                <div class="col align-items-start  h-25 ">
+                    <label>Sigorta Durumu</label>
+                </div>
+                <div class="col align-items-start  h-25 ">
+                    <select class="form-select" name="sigortaId" aria-label="Default select example">
+                        <option value="1" >Normal</option>
+                        <option value="2" >Emekli</option>
+                    </select>
+                </div>
+                <div class="w-100 mb-1"></div>
+                <div class="col align-items-start h-25 ">
+                    <label>Sakatlık Derecesi</label>
+                </div>
+                <div class="col align-items-start h-25 ">
+                    <select class="form-select" name="sakatlikId" aria-label="Default select example">
+                        <option value="1">1.Derece Engelli %80</option>
+                        <option value="2">2.Derece Engelli %60</option>
+                        <option value="3">3.Derece Engelli</option>
+                        <option value="4">Engelli Değil</option>
+                    </select>
+                </div>
+                <div class="w-100 mb-1"></div>
+
+            </div>
+        </div>
+        <div class="col align-items-end h-25">
+            <div class="row">
+                <div class="col align-items-start h-25 ">
+                    <label>Medeni Durumu</label>
+                </div>
+                <div class="col align-items-start  h-25 ">
+                    <select class="form-select" name="medeniDurum" aria-label="Default select example">
+                        <option value="Bekar" >Bekar</option>
+                        <option value="Evli(Çalışıyor)">Evli(Çalışıyor)</option>
+                        <option value="Evli(Çalışmıyor)">Evli(Çalışmıyor)</option>
+                        <option value="Faydalanmayacak">AGİ'den faydalanmayacak</option>
+                    </select>
+                </div>
+                <div class="w-100 mb-1"></div>
+                <div class="col align-items-start  h-25 ">
+                    <label>Çocuk Sayısı</label>
+                </div>
+                <div class="col align-items-start  h-25 ">
+                    <input type="text" name="cocukSayisi" class="form-control"  />
+                </div>
+                <div class="w-100 mb-1"></div>
+                <div class="col align-items-start h-25 ">
+                    <label>Maaş</label>
+                </div>
+                <div class="col align-items-start h-25 ">
+                    <input type="text" name="maas" class="form-control" />
+                </div>
+                <div class="w-100 mb-1"></div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+    <button type="submit" class=" btn btn-primary  w-25" style="margin-left:75%;">Kaydet</button>
+
+</form>
+

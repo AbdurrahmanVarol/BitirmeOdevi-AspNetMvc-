@@ -1,0 +1,118 @@
+﻿@model BitirmeOdevi.Models.kisiModel
+@{
+    ViewBag.Title = "kisiForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form method="post" action="/Home/Kaydet">
+
+    <div class="form-group row">
+        <div class="col align-items-start  h-25 ">
+            <div class="row">
+
+                <div class="col align-items-start  h-25 ">
+                    <label>Ad</label>
+                </div>
+                <div class="col align-items-start h-25 ">
+                    <input type="text" class="form-control" name="ad" value="@Model.ad" />
+                </div>
+                <div class="w-100 mb-1"></div>
+
+                <div class="col align-items-start  h-25 ">
+                    <label>Soyad</label>
+                </div>
+                <div class="col align-items-start h-25 ">
+                    <input type="text" class="form-control" name="soyad" value="@Model.soyad" />
+                </div>
+                <div class="w-100 mb-1"></div>
+                <div class="col align-items-start  h-25 ">
+                    <label>Sigorta Durumu</label>
+                </div>
+                <div class="col align-items-start  h-25 ">
+                    <select class="form-select" name="sigortaId" aria-label="Default select example">
+                        <option value="1" @(Model.sigortaId == 1 ? "selected" : "")>Normal</option>
+                        <option value="2" @(Model.sigortaId == 2 ? "selected" : "")>Emekli</option>
+                    </select>
+                </div>
+                <div class="w-100 mb-1"></div>
+                <div class="col align-items-start h-25 ">
+                    <label>Sakatlık Derecesi</label>
+                </div>
+                <div class="col align-items-start h-25 ">
+                    <select class="form-select" name="sakatlikId" aria-label="Default select example">
+                        <option value="1" @(Model.sakatlikId == 2 ? "selected" : "")>1.Derece Engelli %80</option>
+                        <option value="2" @(Model.sakatlikId == 3 ? "selected" : "")>2.Derece Engelli %60</option>
+                        <option value="3" @(Model.sakatlikId == 4 ? "selected" : "")>3.Derece Engelli</option>
+                        <option value="4" @(Model.sakatlikId == 1 ? "selected" : "")>Engelli Değil</option>
+                    </select>
+                </div>
+                <div class="w-100 mb-1"></div>
+
+            </div>
+        </div>
+        <div class="col align-items-end h-25">
+            <div class="row">
+                <div class="col align-items-start h-25 ">
+                    <label>Medeni Durumu</label>
+                </div>
+                <div class="col align-items-start  h-25 ">
+                    <select class="form-select" name="medeniDurum" aria-label="Default select example">
+                        <option value="Bekar" @(Model.medeniDurum == "Bekar" ? "selected" : "")>Bekar</option>
+                        <option value="Evli(Çalışıyor)" @(Model.medeniDurum == "Evli(Çalışıyor)" ? "selected" : "") ">Evli(Çalışıyor)</option>
+                        <option value="Evli(Çalışmıyor)" @(Model.medeniDurum == "Evli(Çalışmıyor)" ? "selected" : "") ">Evli(Çalışmıyor)</option>
+                        <option value="Faydalanmayacak" @(Model.medeniDurum == "Faydalanmayacak" ? "selected" : "") ">AGİ'den faydalanmayacak</option>
+                    </select>
+                </div>
+                <div class="w-100 mb-1"></div>
+                <div class="col align-items-start  h-25 ">
+                    <label>Çocuk Sayısı</label>
+                </div>
+                <div class="col align-items-start  h-25 ">
+                    <input type="text" name="cocukSayisi" class="form-control" value="@Model.cocukSayisi" />
+                </div>
+                <div class="w-100 mb-1"></div>
+                <div class="col align-items-start h-25 ">
+                    <label>Maaş</label>
+                </div>
+                <div class="col align-items-start h-25 ">
+                    <input type="text" name="maas" class="form-control" value="@Model.maas" />
+                </div>
+                <div class="w-100 mb-1"></div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="id" value="@Model.id">
+    <button type="submit" class=" btn btn-primary  w-25" style="margin-left:75%;">Kaydet</button>
+</form>
+
+
+
+
+
+
+
+@*@using (Html.BeginForm("Kaydet", "Home", FormMethod.Post))
+    {
+        <div class="form-group row">
+            <div class="form-group row">
+                <div class="col align-self-start">
+
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.id)
+                    @Html.TextBoxFor(model => model.Id, new { @class = "form-control", @id = "ex2" })
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Name)
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "ex2" })
+                </div>
+                <div class="col-xs-3">
+                    @Html.LabelFor(model => model.Salary)
+                    @Html.TextBoxFor(model => model.Salary, new { @class = "form-control", @id = "ex2" })
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Id);
+            <button type="submit" class="btn btn-success col-xs-5"> Kaydet </button>
+        </div>
+
+    }*@

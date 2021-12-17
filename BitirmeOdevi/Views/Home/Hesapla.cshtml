@@ -1,0 +1,99 @@
+﻿@using BitirmeOdevi.Models
+@model List<HesaplaModel>
+@{
+    ViewBag.Title = "Hesapla";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="table-responsive bg-light bg-opacity-25 justify-content-center align-items-center">
+    <table class="table table-bordered table-striped table-sm">
+        <thead>
+            <tr>
+                <th>Ay</th>
+                <th>Brüt Tutar</th>
+                <th>Sigorta Primi İşçi Pay</th>
+                <th>İşsizlik Primi İşçi Payı</th>
+                <th>Damga Vergisi</th>
+                <th>Gelir Vergisi</th>
+                <th>Vergi Dilimi %</th>
+                <th>Net Tutar</th>
+                <th>Asgari Geçim İndirimi</th>
+                <th>Ödenecek Tutar</th>
+                <th>İşveren Sigorta + İşsizlik Payı</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var hesaplaModel in Model)
+            {
+                <tr>
+                    <td>@hesaplaModel.ay</td>
+                    <th>@hesaplaModel.brütMaas</th>
+                    <th>@hesaplaModel.sgkIsciPayi</th>
+                    <th>@hesaplaModel.sgkIssizlikIsciPayi</th>
+                    <th>@hesaplaModel.damgaVergisi</th>
+                    <th>@hesaplaModel.gelirVergisi</th>
+                    <th>@hesaplaModel.vergiDilim %</th>
+                    <th>@hesaplaModel.netTutar</th>
+                    <th>@hesaplaModel.agi</th>
+                    <th>@hesaplaModel.odenecekTutar</th>
+                    <th>@hesaplaModel.sigortaVeİssizlikPayı</th>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Aylık Ortalamalar</th>
+                <td>0</td>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>0</th>
+                <th></th>
+                <th>0</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+    @*<table>
+        <tbody id="aaa">
+
+        </tbody>
+    </table>
+    <script>
+        
+          
+        function yaz(...kisi) {
+            let model =
+            {
+                ay: "",
+                brütMaas: 0,
+                sgkIsciPayi: 0,
+                sgkIssizlikIsciPayi: 0,
+                damgaVergisi: 0,
+                gelirVergisi: 0,
+                vergiDilim: 0,
+                netTutar: 0,
+                agi: 0,
+                odenecekTutar: 0,
+                sigortaVeİssizlikPayı: 0
+            }
+            model.ay = kisi[0]
+            model.brütMaas = kisi[3]
+            model.netTutar = kisi[2]
+            let html = `
+                        <tr>${model.ay}</tr>
+<tr>${model.brütMaas}</tr>
+<tr>${model.damgaVergisi}</tr>
+<tr>${model. gelirVergisi}</tr>
+<tr>${model.netTutar}</tr>`
+            let element
+            element = document.getElementById("aaa")
+            element.innerHTML = html
+        }
+    </script>*@
+</div>
+
