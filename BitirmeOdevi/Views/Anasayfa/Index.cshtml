@@ -413,12 +413,6 @@
                 kisiModel.cocukSayisi = parseInt(cocukSayisi)
                 
         
-       
-       /* medeniDurum
-        cocukSayisi
-        sakatlikId
-        sigortaId*/
-            
             let footer =
             {
                 ortalamaBrüt: 0,
@@ -511,96 +505,6 @@
                 }
             });
         }
-        /*function nettenBrüte(id, ad, soyad) {
-            let footer =
-            {
-                ortalamaBrüt: 0,
-                ortalamaNet: 0,
-                ortalamaOdenecek: 0,
-                Brüt: 0,
-                Net: 0,
-                sgkIsciPayi: 0,
-                sgkIssizlikIsciPayi: 0,
-                damgaVergisi: 0,
-                gelirVergisi: 0,
-                agi: 0,
-                odenecekTutar: 0,
-                sigortaVeİssizlikPayı: 0
-            }
-            var bodyData = ``
-            var footerData =``
-            $.ajax({
-                url: '/Home/NET/' + id,
-                type: 'POST',
-                dataType: 'json',
-                success: function (data) {
-                    $.each(data, function (i, kisi) {
-                        footer.Brüt += kisi.brütMaas
-                        footer.Net += parseFloat(kisi.netTutar)
-                        footer.sgkIsciPayi += parseFloat(kisi.sgkIsciPayi)
-                        footer.sgkIssizlikIsciPayi += parseFloat(kisi.sgkIssizlikIsciPayi)
-                        footer.damgaVergisi += parseFloat(kisi.damgaVergisi)
-                        footer.gelirVergisi += parseFloat(kisi.gelirVergisi)
-                        footer.agi += parseFloat(kisi.agi)
-                        footer.odenecekTutar += parseFloat(kisi.odenecekTutar)
-                        footer.sigortaVeİssizlikPayı += parseFloat(kisi.sigortaVeİssizlikPayı)
-                        bodyData += `
-                                    <tr>
-                                        <td>${kisi.ay}</td>
-                                        <th>${kisi.brütMaas.toFixed(2)}</th>
-                                        <th>${kisi.sgkIsciPayi}</th>
-                                        <th>${kisi.sgkIssizlikIsciPayi}</th>
-                                        <th>${kisi.damgaVergisi}</th>
-                                        <th>${kisi.gelirVergisi}</th>
-                                        <th>${kisi.vergiDilim} %</th>
-                                        <th>${kisi.netTutar}</th>
-                                        <th>${kisi.agi}</th>
-                                        <th>${kisi.odenecekTutar}</th>
-                                        <th>${kisi.sigortaVeİssizlikPayı}</th>
-                                    </tr>
-                                   `
-                    });
-                    footer.ortalamaNet = (footer.Net / 12).toFixed(2)
-                    footer.ortalamaBrüt = (footer.Brüt / 12).toFixed(2)
-                    footer.ortalamaOdenecek = (footer.odenecekTutar / 12).toFixed(2)
-                    footerData += ` <tr>
-                                        <td>Aylık Ortalamalar</td>
-                                        <th>${footer.ortalamaBrüt}</th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
-                                        <th>${footer.ortalamaNet}</th>
-                                        <th></th>
-                                        <th>${footer.ortalamaOdenecek}</th>
-                                        <th></th>
-                                    </tr>
-                                   `
-                    footerData += `
-                                   <tr>
-                                      <td>Toplam</td>
-                                      <th>${footer.Brüt.toFixed(2)}</th>
-                                      <th>${footer.sgkIsciPayi.toFixed(2)}</th>
-                                      <th>${footer.sgkIssizlikIsciPayi.toFixed(2)}</th>
-                                      <th>${footer.damgaVergisi.toFixed(2)}</th>
-                                      <th>${footer.gelirVergisi.toFixed(2)}</th>
-                                      <th></th>
-                                      <th>${footer.Net.toFixed(2)}</th>
-                                      <th>${footer.agi.toFixed(2)}</th>
-                                      <th>${footer.odenecekTutar.toFixed(2)}</th>
-                                      <th>${footer.sigortaVeİssizlikPayı.toFixed(2)}</th>
-                                   </tr>
-                                   `
-                    $("#body").html("");
-                    $("#body").html(bodyData);
-                    $("#footer").html("");
-                    $("#footer").html(footerData);
-                    $("#info").html("")
-                    $("#info").html("<strong>" + ad + " " + soyad + "<br/> Netten Brüte Maaş Hesabı </strong>")
-                }
-            });
-        }*/
     </script>
 
 
