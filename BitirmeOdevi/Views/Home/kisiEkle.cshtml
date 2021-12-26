@@ -5,88 +5,117 @@
 }
 
 
-<form method="post" action="/Home/Kaydet">
-
-    <div class="form-group row">
-        <div class="col align-items-start  h-25 ">
-            <div class="row">
-
-                <div class="col align-items-start  h-25 ">
-                    <label>Ad</label>
-                </div>
-                <div class="col align-items-start h-25 ">
-                    <input type="text" class="form-control" name="ad"/>
-                </div>
-                <div class="w-100 mb-1"></div>
-
-                <div class="col align-items-start  h-25 ">
-                    <label>Soyad</label>
-                </div>
-                <div class="col align-items-start h-25 ">
-                    <input type="text" class="form-control" name="soyad" />
-                </div>
-                <div class="w-100 mb-1"></div>
-                <div class="col align-items-start  h-25 ">
-                    <label>Sigorta Durumu</label>
-                </div>
-                <div class="col align-items-start  h-25 ">
-                    <select class="form-select" name="sigortaId" aria-label="Default select example">
-                        <option value="1" >Normal</option>
-                        <option value="2" >Emekli</option>
-                    </select>
-                </div>
-                <div class="w-100 mb-1"></div>
-                <div class="col align-items-start h-25 ">
-                    <label>Sakatlık Derecesi</label>
-                </div>
-                <div class="col align-items-start h-25 ">
-                    <select class="form-select" name="sakatlikId" aria-label="Default select example">
-                        <option value="1">1.Derece Engelli %80</option>
-                        <option value="2">2.Derece Engelli %60</option>
-                        <option value="3">3.Derece Engelli</option>
-                        <option value="4">Engelli Değil</option>
-                    </select>
-                </div>
-                <div class="w-100 mb-1"></div>
-
-            </div>
+<div class="p-3 bg-white content">
+    <div class="mb-5">
+        <div class="btn-group" style="width:10%;">
+            <a class="btn" style="background-color: #c0392b; color: #ecf0f1; " href="/Home/Index"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABmJLR0QA/wD/AP+gvaeTAAAAzUlEQVQokY2OsWoCQRRF7+ygIiEyy2ZBMIWdnZW9lXbmO/IHaVJY2vgD/okWIUXK/IGtVWZ2fbOIYIq9NokouMze7j7OeVwAgHPHnvP+HXXyczh0rffLLdmqwyu7919RhDXJ33sAqR6A8iON408AQCYysSKvVR9JNuy+eHFSLEhq9SdNS6CfGrOqEvM8H5Zajy+HLMueQ/udFIvovyRJsgsJJE9RCLqOUqql68JWZASwrYKgtY9oNmcoMXgynblyIm8BRxPYpMZ8111zkzOdJVKwZftmnwAAAABJRU5ErkJggg==">  Geri</a>
         </div>
-        <div class="col align-items-end h-25">
-            <div class="row">
-                <div class="col align-items-start h-25 ">
-                    <label>Medeni Durumu</label>
-                </div>
-                <div class="col align-items-start  h-25 ">
-                    <select class="form-select" name="medeniDurum" aria-label="Default select example">
-                        <option value="Bekar" >Bekar</option>
-                        <option value="Evli(Çalışıyor)">Evli(Çalışıyor)</option>
-                        <option value="Evli(Çalışmıyor)">Evli(Çalışmıyor)</option>
-                        <option value="Faydalanmayacak">AGİ'den faydalanmayacak</option>
-                    </select>
-                </div>
-                <div class="w-100 mb-1"></div>
-                <div class="col align-items-start  h-25 ">
-                    <label>Çocuk Sayısı</label>
-                </div>
-                <div class="col align-items-start  h-25 ">
-                    <input type="text" name="cocukSayisi" class="form-control"  />
-                </div>
-                <div class="w-100 mb-1"></div>
-                <div class="col align-items-start h-25 ">
-                    <label>Maaş</label>
-                </div>
-                <div class="col align-items-start h-25 ">
-                    <input type="text" name="maas" class="form-control" />
-                </div>
-                <div class="w-100 mb-1"></div>
-
-
-            </div>
-
-
+        <div class="btn-group" style="width:10%; margin-left:79.5%;">
+            <a class="btn" style="background-color: #c0392b; color: #ecf0f1; " href="/Security/Logout">Çıkış Yap</a>
         </div>
     </div>
-    <button type="submit" class=" btn btn-primary  w-25" style="margin-left:75%;">Kaydet</button>
+    <div class=" mt-5 rounded">
+        <form method="post" action="/Home/Kaydet">
+            <div class="form-group row">
+                <div class="col align-items-start  h-25 ">
+                    <div class="row">
 
-</form>
+                        <div class="col align-items-start  h-25 ">
+                            <label>Ad</label>
+                        </div>
+                        <div class="col align-items-start h-25 ">
+                            <input type="text" class="form-control" name="ad" required />
+                        </div>
+                        <div class="w-100 mb-1"></div>
+
+                        <div class="col align-items-start  h-25 ">
+                            <label>Soyad</label>
+                        </div>
+                        <div class="col align-items-start h-25 ">
+                            <input type="text" class="form-control" name="soyad" required />
+                        </div>
+                        <div class="w-100 mb-1"></div>
+                        <div class="col align-items-start  h-25 ">
+                            <label>Sigorta Durumu</label>
+                        </div>
+                        <div class="col align-items-start  h-25 ">
+                            <select class="form-select" name="sigortaId" aria-label="Default select example">
+                                <option value="1">Normal</option>
+                                <option value="2">Emekli</option>
+                            </select>
+                        </div>
+                        <div class="w-100 mb-1"></div>
+                        <div class="col align-items-start h-25 ">
+                            <label>Sakatlık Derecesi</label>
+                        </div>
+                        <div class="col align-items-start h-25 ">
+                            <select class="form-select" name="sakatlikId" aria-label="Default select example">
+                                <option value="1">1.Derece Engelli %80</option>
+                                <option value="2">2.Derece Engelli %60</option>
+                                <option value="3">3.Derece Engelli</option>
+                                <option value="4" selected>Engelli Değil</option>
+                            </select>
+                        </div>
+                        <div class="w-100 mb-1"></div>
+
+                    </div>
+                </div>
+                <div class="col align-items-end h-25">
+                    <div class="row">
+                        <div class="col align-items-start h-25 ">
+                            <label>Medeni Durumu</label>
+                        </div>
+                        <div class="col align-items-start  h-25 ">
+                            <select class="form-select" id="medeniDurum" name="medeniDurum" aria-label="Default select example" onchange="toggleInput();">
+                                <option value="Bekar">Bekar</option>
+                                <option value="Evli(Çalışıyor)">Evli(Çalışıyor)</option>
+                                <option value="Evli(Çalışmıyor)">Evli(Çalışmıyor)</option>
+                                <option value="Faydalanmayacak">AGİ'den faydalanmayacak</option>
+                            </select>
+                        </div>
+                        <div class="w-100 mb-1"></div>
+                        <div class="col align-items-start  h-25 ">
+                            <label>Çocuk Sayısı</label>
+                        </div>
+                        <div class="col align-items-start  h-25 ">
+                            <select class="form-select" id="cocukSayisi" name="cocukSayisi" aria-label="Default select example">
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5 ve 5+</option>
+                            </select>
+                        </div>
+                        <div class="w-100 mb-1"></div>
+                        <div class="col align-items-start h-25 ">
+                            <label>Maaş</label>
+                        </div>
+                        <div class="col align-items-start h-25 ">
+                            <input type="number" name="maas" class="form-control" required/>
+                        </div>
+                        <div class="w-100 mb-1"></div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class=" btn btn-primary  w-25" style="margin-left:75%;">Kaydet</button>
+        </form>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $('#cocukSayisi').prop('disabled', true);
+    function toggleInput() {        
+        if ($('#medeniDurum :selected').val() == "Bekar") {
+            $('#cocukSayisi').prop('disabled', true);
+        }
+        else if ($('#medeniDurum :selected').val() == "Faydalanmayacak") {
+            $('#cocukSayisi').prop('disabled', true);
+        }
+        else {
+            $('#cocukSayisi').prop('disabled', false);
+        }
+    }
+</script>
+
 

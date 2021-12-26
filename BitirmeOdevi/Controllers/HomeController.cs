@@ -24,6 +24,7 @@ namespace BitirmeOdevi.Controllers
 
         public void ayEkle()
         {
+            _aylar.Clear();
             _aylar.Add("ocak");
             _aylar.Add("subat");
             _aylar.Add("mart");
@@ -70,30 +71,17 @@ namespace BitirmeOdevi.Controllers
                 return RedirectToAction("Login", "Security");      
         }
 
-        [HttpPost]
-        public ActionResult Index(User user)
-        {
-            //Random random = new Random();
-            //List<Kisi> kisiler = new List<Kisi>();
-            //for (int i = 1; i <= 5; i++)
-            //{
-            //    Kisi kisi = new Kisi()
-            //    {
-            //        id = i,
-            //        fName = "first name",
-            //        lName = "last name",
-            //        salary = random.Next(4000, 6000)
-
-            //    };
-            //    kisiler.Add(kisi);
-            //}
-            return View();
-        }
         [HttpGet]
         public ActionResult Ekle()
         {
-            return View("kisiEkle");
+            if (Request.Cookies.AllKeys.Contains("Login"))
+            {
+                return View("kisiEkle");
+            }
+            else
+                return RedirectToAction("Login", "Security");
         }
+
         [HttpPost]
         public ActionResult Kaydet(kisiModel kisiModel)
         {
@@ -124,67 +112,31 @@ namespace BitirmeOdevi.Controllers
         }
         public ActionResult Düzenle(int id)
         {
-            var kisi = _kisilerManager.Get("kisiId=" + id.ToString());
-            var agi = _agiManager.Get("agiId=" + kisi.agiId.ToString());
-
-            kisiModel kisiModel = new kisiModel()
+            if (Request.Cookies.AllKeys.Contains("Login"))
             {
-                id = id,
-                ad = kisi.ad,
-                soyad = kisi.soyad,
-                maas = kisi.maas,
-                kullaniciId = kisi.kullaniciId,
-                medeniDurum = agi.medeniDurum,
-                cocukSayisi = agi.cocukSayisi,
-                sakatlikId = kisi.sakatlikId,
-                sigortaId = kisi.sigortaId
-            };
-            return View("kisiGuncelle", kisiModel);
-        }
+                var kisi = _kisilerManager.Get("kisiId=" + id.ToString());
+                var agi = _agiManager.Get("agiId=" + kisi.agiId.ToString());
 
-        [HttpGet]
-        public ActionResult Hesapla(int id)
-        {
-            double toplamMaas=0;
-            double vergi;
-            double agi;
-            double vergiMuhafiyeti;
-            Kisiler kisi = new Kisiler();
-            Hesapla hesapla = new Hesapla();
-            List<double> data = new List<double>();
-            kisi = _kisilerManager.Get("kisiId=" + id.ToString());
-            HesaplaModel hesaplaModel = new HesaplaModel();
-            List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
-            ayEkle();
-
-            foreach (var ay in _aylar)
-            {
-                toplamMaas += kisi.maas;
-                vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;
-                agi = _agiManager.Get("agiId=" + kisi.agiId.ToString()).agiMiktari;
-                vergiMuhafiyeti = _sakatlikManager.Get("sakatlikId=" + kisi.sakatlikId.ToString()).indirim;
-                hesaplaModel = hesapla.BrüttenNete(kisi.maas, vergi, agi, vergiMuhafiyeti);
-                hesaplaModel.ay = ay;
-                hesaplaModels.Add(hesaplaModel);
+                kisiModel kisiModel = new kisiModel()
+                {
+                    id = id,
+                    ad = kisi.ad,
+                    soyad = kisi.soyad,
+                    maas = kisi.maas,
+                    kullaniciId = kisi.kullaniciId,
+                    medeniDurum = agi.medeniDurum,
+                    cocukSayisi = agi.cocukSayisi,
+                    sakatlikId = kisi.sakatlikId,
+                    sigortaId = kisi.sigortaId
+                };
+                return View("kisiGuncelle", kisiModel);
             }
-            //foreach(var ay in _aylar)
-            //{
-            //    toplamMaas += kisi.maas;
-            //    vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;
-
-            //    //hesaplaModel = hesapla.BrüttenNete(kisi.maas, vergi, vergiMuhafiyeti);
-            //    hesaplaModel.ay = ay;
-            //    hesaplaModels.Add(hesaplaModel);
-            //}   
-            return View("Hesapla", hesaplaModels);
-            //var kisi = _kullaniciManager.GetById(id);
-            //if (kisi != null)
-            //    return View("Hesapla", kisi);
-            //else
-            //    return HttpNotFound();
+            else
+                return RedirectToAction("Login", "Security");
+           
         }
-        [HttpGet]
-        public ActionResult BRÜT(int id)
+        [HttpPost]
+        public JsonResult BRÜT(int id)
         {
             double toplamMaas = 0;
             double vergi;
@@ -192,41 +144,28 @@ namespace BitirmeOdevi.Controllers
             double vergiMuhafiyeti;
             Kisiler kisi = new Kisiler();
             Hesapla hesapla = new Hesapla();
-            List<double> data = new List<double>();
-            kisi = _kisilerManager.Get("kisiId=" + id.ToString());
-            HesaplaModel hesaplaModel = new HesaplaModel();
             List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
+
+            kisi = _kisilerManager.Get("kisiId=" + id.ToString());
+            agi = _agiManager.Get("agiId=" + kisi.agiId.ToString()).agiMiktari;
+            vergiMuhafiyeti = _sakatlikManager.Get("sakatlikId=" + kisi.sakatlikId.ToString()).indirim;
+            
             ayEkle();
 
             foreach (var ay in _aylar)
             {
-               
-                vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;
-                agi = _agiManager.Get("agiId=" + kisi.agiId.ToString()).agiMiktari;
-                vergiMuhafiyeti = _sakatlikManager.Get("sakatlikId=" + kisi.sakatlikId.ToString()).indirim;
-                hesaplaModel = hesapla.BrüttenNete2(kisi.maas, vergi, agi, vergiMuhafiyeti);
+
+                vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;                
+                HesaplaModel hesaplaModel = new HesaplaModel();
+                hesaplaModel = hesapla.BrüttenNete(hesaplaModel, kisi.maas, vergi, agi, vergiMuhafiyeti, kisi.sigortaId);
                 hesaplaModel.ay = ay;
                 hesaplaModels.Add(hesaplaModel);
                 toplamMaas += kisi.maas;
             }
-            //foreach(var ay in _aylar)
-            //{
-            //    toplamMaas += kisi.maas;
-            //    vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;
-
-            //    //hesaplaModel = hesapla.BrüttenNete(kisi.maas, vergi, vergiMuhafiyeti);
-            //    hesaplaModel.ay = ay;
-            //    hesaplaModels.Add(hesaplaModel);
-            //}   
-            return View("Hesapla", hesaplaModels);
-            //var kisi = _kullaniciManager.GetById(id);
-            //if (kisi != null)
-            //    return View("Hesapla", kisi);
-            //else
-            //    return HttpNotFound();
+            return Json(hesaplaModels,JsonRequestBehavior.AllowGet);
         }
-        [HttpGet]
-        public ActionResult NET(int id)
+        [HttpPost]
+        public JsonResult NET(int id)
         {
             double toplamMaas = 0;
             double vergi;
@@ -234,41 +173,26 @@ namespace BitirmeOdevi.Controllers
             double vergiMuhafiyeti;
             Kisiler kisi = new Kisiler();
             Hesapla hesapla = new Hesapla();
-            List<double> data = new List<double>();
-            kisi = _kisilerManager.Get("kisiId=" + id.ToString());
-            HesaplaModel hesaplaModel = new HesaplaModel();
             List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
+
+            kisi = _kisilerManager.Get("kisiId=" + id.ToString());
+            agi = _agiManager.Get("agiId=" + kisi.agiId.ToString()).agiMiktari;
+            vergiMuhafiyeti = _sakatlikManager.Get("sakatlikId=" + kisi.sakatlikId.ToString()).indirim;
+
             ayEkle();
 
             foreach (var ay in _aylar)
             {
-                
-                vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;
-                agi = _agiManager.Get("agiId=" + kisi.agiId.ToString()).agiMiktari;
-                vergiMuhafiyeti = _sakatlikManager.Get("sakatlikId=" + kisi.sakatlikId.ToString()).indirim;
-                hesaplaModel = hesapla.NettenBrüte2(kisi.maas, vergi, agi, vergiMuhafiyeti);
+                vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;                
+                HesaplaModel hesaplaModel = new HesaplaModel();
+                hesaplaModel = hesapla.NettenBrüte(hesaplaModel, kisi.maas, vergi, agi, vergiMuhafiyeti, kisi.sigortaId);
                 hesaplaModel.ay = ay;
                 toplamMaas += Convert.ToInt32(hesaplaModel.brütMaas);
                 hesaplaModels.Add(hesaplaModel);
-                
+
             }
-            //foreach(var ay in _aylar)
-            //{
-            //    toplamMaas += kisi.maas;
-            //    vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;
-
-            //    //hesaplaModel = hesapla.BrüttenNete(kisi.maas, vergi, vergiMuhafiyeti);
-            //    hesaplaModel.ay = ay;
-            //    hesaplaModels.Add(hesaplaModel);
-            //}   
-            return View("Hesapla", hesaplaModels);
-            //var kisi = _kullaniciManager.GetById(id);
-            //if (kisi != null)
-            //    return View("Hesapla", kisi);
-            //else
-            //    return HttpNotFound();
+            return Json(hesaplaModels, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult Sil(int id)
         {
             _kisilerManager.Delete(id);

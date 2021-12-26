@@ -137,7 +137,6 @@
     </Compile>
     <Compile Include="Hesaplama\Hesapla.cs" />
     <Compile Include="Models\HesaplaModel.cs" />
-    <Compile Include="Models\Kisi.cs" />
     <Compile Include="Models\kisiModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\userModel.cs" />

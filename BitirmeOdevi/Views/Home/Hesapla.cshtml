@@ -4,96 +4,154 @@
     ViewBag.Title = "Hesapla";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
+
 }
+<div class="p-3 bg-white content">
+    <div class="mb-5">
+        <div class="btn-group" style="width:10%;">
+            <a class="btn" style="background-color: #c0392b; color: #ecf0f1; " href="/Home/Index"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABmJLR0QA/wD/AP+gvaeTAAAAzUlEQVQokY2OsWoCQRRF7+ygIiEyy2ZBMIWdnZW9lXbmO/IHaVJY2vgD/okWIUXK/IGtVWZ2fbOIYIq9NokouMze7j7OeVwAgHPHnvP+HXXyczh0rffLLdmqwyu7919RhDXJ33sAqR6A8iON408AQCYysSKvVR9JNuy+eHFSLEhq9SdNS6CfGrOqEvM8H5Zajy+HLMueQ/udFIvovyRJsgsJJE9RCLqOUqql68JWZASwrYKgtY9oNmcoMXgynblyIm8BRxPYpMZ8111zkzOdJVKwZftmnwAAAABJRU5ErkJggg==">  Geri</a>
+        </div>
+        <div class="btn-group" style="width:10%; margin-left:79.5%;">
+            <a class="btn" style="background-color: #c0392b; color: #ecf0f1; " href="/Security/Logout">Çıkış Yap</a>
+        </div>
+    </div>
+    <div class=" mt-5 rounded">
+        <div class="table-responsive bg-light bg-opacity-25 justify-content-center align-items-center">
+            <table class="table table-bordered table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Ay</th>
+                        <th>Brüt Tutar</th>
+                        <th>Sigorta Primi İşçi Pay</th>
+                        <th>İşsizlik Primi İşçi Payı</th>
+                        <th>Damga Vergisi</th>
+                        <th>Gelir Vergisi</th>
+                        <th>Vergi Dilimi %</th>
+                        <th>Net Tutar</th>
+                        <th>Asgari Geçim İndirimi</th>
+                        <th>Ödenecek Tutar</th>
+                        <th>İşveren Sigorta + İşsizlik Payı</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-<div class="table-responsive bg-light bg-opacity-25 justify-content-center align-items-center">
-    <table class="table table-bordered table-striped table-sm">
-        <thead>
-            <tr>
-                <th>Ay</th>
-                <th>Brüt Tutar</th>
-                <th>Sigorta Primi İşçi Pay</th>
-                <th>İşsizlik Primi İşçi Payı</th>
-                <th>Damga Vergisi</th>
-                <th>Gelir Vergisi</th>
-                <th>Vergi Dilimi %</th>
-                <th>Net Tutar</th>
-                <th>Asgari Geçim İndirimi</th>
-                <th>Ödenecek Tutar</th>
-                <th>İşveren Sigorta + İşsizlik Payı</th>
-            </tr>
-        </thead>
-        <tbody>
+                    @foreach (var hesaplaModel in Model)
+                    {
+                        <tr>
+                            <td>@hesaplaModel.ay</td>
+                            <th>@hesaplaModel.brütMaas</th>
+                            <th>@hesaplaModel.sgkIsciPayi</th>
+                            <th>@hesaplaModel.sgkIssizlikIsciPayi</th>
+                            <th>@hesaplaModel.damgaVergisi</th>
+                            <th>@hesaplaModel.gelirVergisi</th>
+                            <th>@hesaplaModel.vergiDilim %</th>
+                            <th>@hesaplaModel.netTutar</th>
+                            <th>@hesaplaModel.agi</th>
+                            <th>@hesaplaModel.odenecekTutar</th>
+                            <th>@hesaplaModel.sigortaVeİssizlikPayı</th>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    @{
+                        double ortalamaBrüt = 0;
+                        double ortalamaNet = 0;
+                        double ortalamaOdenecek = 0;
+                        double Brüt = 0;
+                        double Net = 0;
+                        double sgkIsciPayi = 0;
+                        double sgkIssizlikIsciPayi = 0;
+                        double damgaVergisi = 0;
+                        double gelirVergisi = 0;
+                        double agi = 0;
+                        double odenecekTutar = 0;
+                        double sigortaVeİssizlikPayı = 0;
+                        foreach (var i in Model)
+                        {
+                            Brüt += i.brütMaas;
+                            Net += i.netTutar;
+                            sgkIsciPayi += i.sgkIsciPayi;
+                            sgkIssizlikIsciPayi += i.sgkIssizlikIsciPayi;
+                            damgaVergisi += i.damgaVergisi;
+                            gelirVergisi += i.gelirVergisi;
+                            agi += i.agi;
+                            odenecekTutar += i.odenecekTutar;
+                            sigortaVeİssizlikPayı += i.sigortaVeİssizlikPayı;
+                        }
+                        ortalamaBrüt = Math.Round(Brüt / 12, 2);
+                        ortalamaNet = Math.Round(Net / 12, 2);
+                        ortalamaOdenecek = Math.Round(odenecekTutar / 12, 2);
+                        <tr>
+                            <th>Aylık Ortalamalar</th>
+                            <td>@ortalamaBrüt</td>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th>@ortalamaNet</th>
+                            <th></th>
+                            <th>@ortalamaOdenecek</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>Toplam</th>
+                            <td>@Math.Round(Brüt,2) </td>
+                            <th>@Math.Round(sgkIsciPayi, 2)</th>
+                            <th>@Math.Round(sgkIssizlikIsciPayi, 2)</th>
+                            <th>@Math.Round(damgaVergisi, 2)</th>
+                            <th>@Math.Round(gelirVergisi, 2)</th>
+                            <th></th>
+                            <th>@Math.Round(Net, 2)</th>
+                            <th>@Math.Round(agi, 2)</th>
+                            <th>@Math.Round(odenecekTutar, 2)</th>
+                            <th>@Math.Round(sigortaVeİssizlikPayı, 2)</th>
+                        </tr>
 
-            @foreach (var hesaplaModel in Model)
-            {
-                <tr>
-                    <td>@hesaplaModel.ay</td>
-                    <th>@hesaplaModel.brütMaas</th>
-                    <th>@hesaplaModel.sgkIsciPayi</th>
-                    <th>@hesaplaModel.sgkIssizlikIsciPayi</th>
-                    <th>@hesaplaModel.damgaVergisi</th>
-                    <th>@hesaplaModel.gelirVergisi</th>
-                    <th>@hesaplaModel.vergiDilim %</th>
-                    <th>@hesaplaModel.netTutar</th>
-                    <th>@hesaplaModel.agi</th>
-                    <th>@hesaplaModel.odenecekTutar</th>
-                    <th>@hesaplaModel.sigortaVeİssizlikPayı</th>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>Aylık Ortalamalar</th>
-                <td>0</td>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>0</th>
-                <th></th>
-                <th>0</th>
-                <th></th>
-            </tr>
-        </tfoot>
-    </table>
+                    }
+
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
     @*<table>
-        <tbody id="aaa">
+                <tbody id="aaa">
 
-        </tbody>
-    </table>
-    <script>
-        
-          
-        function yaz(...kisi) {
-            let model =
-            {
-                ay: "",
-                brütMaas: 0,
-                sgkIsciPayi: 0,
-                sgkIssizlikIsciPayi: 0,
-                damgaVergisi: 0,
-                gelirVergisi: 0,
-                vergiDilim: 0,
-                netTutar: 0,
-                agi: 0,
-                odenecekTutar: 0,
-                sigortaVeİssizlikPayı: 0
-            }
-            model.ay = kisi[0]
-            model.brütMaas = kisi[3]
-            model.netTutar = kisi[2]
-            let html = `
-                        <tr>${model.ay}</tr>
-<tr>${model.brütMaas}</tr>
-<tr>${model.damgaVergisi}</tr>
-<tr>${model. gelirVergisi}</tr>
-<tr>${model.netTutar}</tr>`
-            let element
-            element = document.getElementById("aaa")
-            element.innerHTML = html
-        }
-    </script>*@
+                </tbody>
+            </table>
+            <script>
+
+
+                function yaz(...kisi) {
+                    let model =
+                    {
+                        ay: "",
+                        brütMaas: 0,
+                        sgkIsciPayi: 0,
+                        sgkIssizlikIsciPayi: 0,
+                        damgaVergisi: 0,
+                        gelirVergisi: 0,
+                        vergiDilim: 0,
+                        netTutar: 0,
+                        agi: 0,
+                        odenecekTutar: 0,
+                        sigortaVeİssizlikPayı: 0
+                    }
+                    model.ay = kisi[0]
+                    model.brütMaas = kisi[3]
+                    model.netTutar = kisi[2]
+                    let html = `
+                                <tr>${model.ay}</tr>
+        <tr>${model.brütMaas}</tr>
+        <tr>${model.damgaVergisi}</tr>
+        <tr>${model. gelirVergisi}</tr>
+        <tr>${model.netTutar}</tr>`
+                    let element
+                    element = document.getElementById("aaa")
+                    element.innerHTML = html
+                }
+            </script>*@
 </div>
 

@@ -4,54 +4,530 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="bg-success"> @ViewBag.id</div>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
 
-            <tr>
-                <th>Ad</th>
-                <th>Soyad</th>
-                <th>Maaş</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var i in Model)
-            {
-                <tr>
-                    <td>@i.ad</td>
-                    <td>@i.soyad</td>
-                    <td>@i.maas</td>
-                    <td class="text-center"><a class="btn btn-outline-warning" href="/Home/Düzenle/@i.id">Düzenle</a></td>
-                    <td class="text-center align-middle">
-                        @*<a class="btn btn-outline-primary"href="/Home/Hesapla/@i.id">Hesapla</a>*@
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Hesapla
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/Home/BRÜT/@i.id">BRÜTTEN NETE</a></li>
-                                <li><a class="dropdown-item" href="/Home/NET/@i.id">NETTEN BRÜTE</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td class="text-center align-middle"><a class="btn btn-outline-danger" href="/Home/Sil/@i.id">Sil</a></td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th class="text-center align-middle"><a class="btn btn-outline-success" href="/Home/Ekle">Ekle</a></th>
-            </tr>
-        </tfoot>
-    </table>
+<div class="p-3 bg-white content">
+    <div class="mb-3" style="width:10%; margin-left:90%;">
+        <div class="btn-group w-100">
+            <a class="btn" style="background-color: #c0392b; color: #ecf0f1; " href="/Security/Logout">Çıkış Yap</a>
+        </div>
+    </div>
+    <div class=" mb-5 rounded">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+
+                    <tr>
+                        <th>Ad</th>
+                        <th>Soyad</th>
+                        <th>Maaş</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var i in Model)
+                    {
+                        <tr>
+                            <td>@i.ad</td>
+                            <td>@i.soyad</td>
+                            <td>@i.maas</td>
+                            <td class="text-center"><a class="btn btn-outline-warning" href="/Home/Düzenle/@i.id">Düzenle</a></td>
+                            <td class="text-center align-middle">
+                                <div class="d-inline-block" >
+                                    <input type="submit" id="Brüt" class="btn btn-outline-primary" onclick="maasHesapla(@i.id,'@i.ad','@i.soyad','BRÜT')" value="Brütten Nete" />
+                                    <input type="submit" id="Net" class="btn btn-outline-primary" onclick="maasHesapla(@i.id,'@i.ad','@i.soyad','NET')" value="Netten Brüte" />
+                                </div>
+
+                            </td>
+                            <td class="text-center align-middle"><a class="btn btn-outline-danger" href="/Home/Sil/@i.id">Sil</a></td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-center align-middle"><a class="btn btn-outline-success" href="/Home/Ekle">Ekle</a></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div id="result" hidden>
+        <div>
+            <div id="info" class="mb-3 d-inline-block" style="width:80%; margin-left:10%; text-align:center"></div>
+            <button style="width:5%; margin-left:4%;" class="btn btn-danger d-inline-block" onclick="kapat()">Kapat</button>
+        </div>
+        
+        
+        <div class="table-responsive bg-light bg-opacity-25 justify-content-center align-items-center">
+            <table id="table" class="table table-bordered table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Ay</th>
+                        <th>Brüt Tutar</th>
+                        <th>Sigorta Primi İşçi Pay</th>
+                        <th>İşsizlik Primi İşçi Payı</th>
+                        <th>Damga Vergisi</th>
+                        <th>Gelir Vergisi</th>
+                        <th>Vergi Dilimi %</th>
+                        <th>Net Tutar</th>
+                        <th>Asgari Geçim İndirimi</th>
+                        <th>Ödenecek Tutar</th>
+                        <th>İşveren Sigorta + İşsizlik Payı</th>
+                    </tr>
+                </thead>
+                <tbody id="body">
+                    <tr>
+                        <th>Ocak</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Şubat</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Mart</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Nisan</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Mayıs</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Haziran</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Temmuz</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Ağustos</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Eylül</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Ekim</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Kasım</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                    <tr>
+                        <th>Aralık</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                </tbody>
+                <tfoot id="footer">
+                    <tr>
+                        <th>Aylık Ortalamalar</th>
+                        <th></th>
+                        <th>0</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>0</th>
+                        <th></th>
+                        <th>0</th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <th>Toplam</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th></th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div id="bodyy" class="mb-3"></div>
+
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function kapat() {
+        document.getElementById("result").hidden = true
+    }
+   /* $(document).ready(function () {
+        $("#Brüt").click(function () {
+            var id = $("#id").val();
+            var element = document.getElementById("body")
+            var data = ``
+            $.ajax({
+                url: '/Home/BRÜT/' + id,
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function (i, kisi) {
+                        data +=`
+                                <tr>
+                                    <td>${kisi.ay}</td>
+                                    <th>${kisi.brütMaas.toFixed(2)}</th>
+                                    <th>${kisi.sgkIsciPayi}</th>
+                                    <th>${kisi.sgkIssizlikIsciPayi}</th>
+                                    <th>${kisi.damgaVergisi}</th>
+                                    <th>${kisi.gelirVergisi}</th>
+                                    <th>${kisi.vergiDilim} %</th>
+                                    <th>${kisi.netTutar}</th>
+                                    <th>${kisi.agi}</th>
+                                    <th>${kisi.odenecekTutar}</th>
+                                    <th>${kisi.sigortaVeİssizlikPayı}</th>
+                                </tr>
+                               `                        
+                    });
+                    $("#body").html("");
+                    $("#body").html(data);
+                }
+            });
+        });
+    });*/
+    function maasHesapla(id, ad, soyad, islem) {
+
+        if (document.getElementById("result").hidden = true)
+            document.getElementById("result").hidden = false
+
+        let footer =
+        {
+            ortalamaBrüt: 0,
+            ortalamaNet: 0,
+            ortalamaOdenecek: 0,
+            Brüt: 0,
+            Net: 0,
+            sgkIsciPayi: 0,
+            sgkIssizlikIsciPayi: 0,
+            damgaVergisi: 0,
+            gelirVergisi: 0,
+            agi: 0,
+            odenecekTutar: 0,
+            sigortaVeİssizlikPayı: 0
+        }
+        var bodyData = ``
+        var footerData = ``
+        $.ajax({
+            url: '/Home/' + islem + '/' + id,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, kisi) {
+                    footer.Brüt += kisi.brütMaas
+                    footer.Net += parseFloat(kisi.netTutar)
+                    footer.sgkIsciPayi += parseFloat(kisi.sgkIsciPayi)
+                    footer.sgkIssizlikIsciPayi += parseFloat(kisi.sgkIssizlikIsciPayi)
+                    footer.damgaVergisi += parseFloat(kisi.damgaVergisi)
+                    footer.gelirVergisi += parseFloat(kisi.gelirVergisi)
+                    footer.agi += parseFloat(kisi.agi)
+                    footer.odenecekTutar += parseFloat(kisi.odenecekTutar)
+                    footer.sigortaVeİssizlikPayı += parseFloat(kisi.sigortaVeİssizlikPayı)
+                    bodyData += `
+                                <tr>
+                                    <td>${kisi.ay}</td>
+                                    <th>${kisi.brütMaas.toFixed(2)}</th>
+                                    <th>${kisi.sgkIsciPayi}</th>
+                                    <th>${kisi.sgkIssizlikIsciPayi}</th>
+                                    <th>${kisi.damgaVergisi}</th>
+                                    <th>${kisi.gelirVergisi}</th>
+                                    <th>${kisi.vergiDilim} %</th>
+                                    <th>${kisi.netTutar}</th>
+                                    <th>${kisi.agi}</th>
+                                    <th>${kisi.odenecekTutar}</th>
+                                    <th>${kisi.sigortaVeİssizlikPayı}</th>
+                                </tr>
+                               `
+                });
+                footer.ortalamaNet = (footer.Net / 12).toFixed(2)
+                footer.ortalamaBrüt = (footer.Brüt / 12).toFixed(2)
+                footer.ortalamaOdenecek = (footer.odenecekTutar / 12).toFixed(2)
+                footerData += ` <tr>
+                                    <td>Aylık Ortalamalar</td>
+                                    <th>${footer.ortalamaBrüt}</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>${footer.ortalamaNet}</th>
+                                    <th></th>
+                                    <th>${footer.ortalamaOdenecek}</th>
+                                    <th></th>
+                                </tr>
+                               `
+                footerData += `
+                               <tr>
+                                  <td>Toplam</td>
+                                  <th>${footer.Brüt.toFixed(2)}</th>
+                                  <th>${footer.sgkIsciPayi.toFixed(2)}</th>
+                                  <th>${footer.sgkIssizlikIsciPayi.toFixed(2)}</th>
+                                  <th>${footer.damgaVergisi.toFixed(2)}</th>
+                                  <th>${footer.gelirVergisi.toFixed(2)}</th>
+                                  <th></th>
+                                  <th>${footer.Net.toFixed(2)}</th>
+                                  <th>${footer.agi.toFixed(2)}</th>
+                                  <th>${footer.odenecekTutar.toFixed(2)}</th>
+                                  <th>${footer.sigortaVeİssizlikPayı.toFixed(2)}</th>
+                               </tr>
+                               `
+                $("#body").html("");
+                $("#body").html(bodyData);
+                $("#footer").html("");
+                $("#footer").html(footerData);
+                if (islem == 'BRÜT') {
+                    $("#info").html("")
+                    $("#info").html("<strong>" + ad + " " + soyad + "<br/> Brütten Nete Maaş Hesabı </strong>")
+                }
+                else {
+                    $("#info").html("")
+                    $("#info").html("<strong>" + ad + " " + soyad + "<br/> Netten Brüte Maaş Hesabı </strong>")
+                }
+
+                
+
+            }
+        });
+    }
+    /*function nettenBrüte(id, ad, soyad) {
+        let footer =
+        {
+            ortalamaBrüt: 0,
+            ortalamaNet: 0,
+            ortalamaOdenecek: 0,
+            Brüt: 0,
+            Net: 0,
+            sgkIsciPayi: 0,
+            sgkIssizlikIsciPayi: 0,
+            damgaVergisi: 0,
+            gelirVergisi: 0,
+            agi: 0,
+            odenecekTutar: 0,
+            sigortaVeİssizlikPayı: 0
+        }
+        var bodyData = ``
+        var footerData =``
+        $.ajax({
+            url: '/Home/NET/' + id,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                $.each(data, function (i, kisi) {
+                    footer.Brüt += kisi.brütMaas
+                    footer.Net += parseFloat(kisi.netTutar)
+                    footer.sgkIsciPayi += parseFloat(kisi.sgkIsciPayi)
+                    footer.sgkIssizlikIsciPayi += parseFloat(kisi.sgkIssizlikIsciPayi)
+                    footer.damgaVergisi += parseFloat(kisi.damgaVergisi)
+                    footer.gelirVergisi += parseFloat(kisi.gelirVergisi)
+                    footer.agi += parseFloat(kisi.agi)
+                    footer.odenecekTutar += parseFloat(kisi.odenecekTutar)
+                    footer.sigortaVeİssizlikPayı += parseFloat(kisi.sigortaVeİssizlikPayı)
+                    bodyData += `
+                                <tr>
+                                    <td>${kisi.ay}</td>
+                                    <th>${kisi.brütMaas.toFixed(2)}</th>
+                                    <th>${kisi.sgkIsciPayi}</th>
+                                    <th>${kisi.sgkIssizlikIsciPayi}</th>
+                                    <th>${kisi.damgaVergisi}</th>
+                                    <th>${kisi.gelirVergisi}</th>
+                                    <th>${kisi.vergiDilim} %</th>
+                                    <th>${kisi.netTutar}</th>
+                                    <th>${kisi.agi}</th>
+                                    <th>${kisi.odenecekTutar}</th>
+                                    <th>${kisi.sigortaVeİssizlikPayı}</th>
+                                </tr>
+                               `
+                });
+                footer.ortalamaNet = (footer.Net / 12).toFixed(2)
+                footer.ortalamaBrüt = (footer.Brüt / 12).toFixed(2)
+                footer.ortalamaOdenecek = (footer.odenecekTutar / 12).toFixed(2)
+                footerData += ` <tr>
+                                    <td>Aylık Ortalamalar</td>
+                                    <th>${footer.ortalamaBrüt}</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th>${footer.ortalamaNet}</th>
+                                    <th></th>
+                                    <th>${footer.ortalamaOdenecek}</th>
+                                    <th></th>
+                                </tr>
+                               `
+                footerData += `
+                               <tr>
+                                  <td>Toplam</td>
+                                  <th>${footer.Brüt.toFixed(2)}</th>
+                                  <th>${footer.sgkIsciPayi.toFixed(2)}</th>
+                                  <th>${footer.sgkIssizlikIsciPayi.toFixed(2)}</th>
+                                  <th>${footer.damgaVergisi.toFixed(2)}</th>
+                                  <th>${footer.gelirVergisi.toFixed(2)}</th>
+                                  <th></th>
+                                  <th>${footer.Net.toFixed(2)}</th>
+                                  <th>${footer.agi.toFixed(2)}</th>
+                                  <th>${footer.odenecekTutar.toFixed(2)}</th>
+                                  <th>${footer.sigortaVeİssizlikPayı.toFixed(2)}</th>
+                               </tr>
+                               `
+                $("#body").html("");
+                $("#body").html(bodyData);
+                $("#footer").html("");
+                $("#footer").html(footerData);
+                $("#info").html("")
+                $("#info").html("<strong>" + ad + " " + soyad + "<br/> Netten Brüte Maaş Hesabı </strong>")
+            }
+        });
+    }*/
+</script>
+
+
+
+@*$("#body").append(
+                            `
+<tr>
+    <td>${kisi.ay}</td>
+    <th>${kisi.brütMaas.toFixed(2)}</th>
+    <th>${kisi.sgkIsciPayi}</th>
+    <th>${kisi.sgkIssizlikIsciPayi}</th>
+    <th>${kisi.damgaVergisi}</th>
+    <th>${kisi.gelirVergisi}</th>
+    <th>${kisi.vergiDilim} %</th>
+    <th>${kisi.netTutar}</th>
+    <th>${kisi.agi}</th>
+    <th>${kisi.odenecekTutar}</th>
+    <th>${kisi.sigortaVeİssizlikPayı}</th>
+</tr>
+                            `
+                        );*@
+
+
 
 

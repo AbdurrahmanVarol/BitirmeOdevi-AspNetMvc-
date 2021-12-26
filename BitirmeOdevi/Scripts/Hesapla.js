@@ -14,9 +14,13 @@ let emekliOranlar = {
     damgaVergisi: 0.00759
 }
 
-
+function kapat() {
+    document.getElementById("sonuc").hidden = true
+}
 
 function Hesapla() {
+    if (document.getElementById("sonuc").hidden = true)
+        document.getElementById("sonuc").hidden = false
     let aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık",]
 
     let kisiler = []
@@ -48,7 +52,7 @@ function Hesapla() {
                 sigortaVeİssizlikPayı: 0
             }
             kisi.agi = AgiBul()
-            
+
             kisi.brütMaas = parseInt(document.getElementById("maas").value)
             toplamMaas += kisi.brütMaas
             kisi.ay = ay
@@ -61,8 +65,35 @@ function Hesapla() {
 
     }
 
-    //else if (hesaplamaSekli == 2)
-    //    nettenBrüte()
+    else
+    {
+        aylar.forEach(ay => {
+            let kisi = {
+                ay: "",
+                brütMaas: 0,
+                sgkIsciPayi: 0,
+                sgkIssizlikIsciPayi: 0,
+                damgaVergisi: 0,
+                gelirVergisi: 0,
+                vergiDilim: 0,
+                netTutar: 0,
+                agi: 0,
+                odenecekTutar: 0,
+                sigortaVeİssizlikPayı: 0
+            }
+            kisi.agi = AgiBul()
+
+            kisi.netTutar = parseInt(document.getElementById("maas").value)
+            toplamMaas += kisi.netTutar
+            kisi.ay = ay
+            gelirVergisi = VergiBul(toplamMaas)
+            kisi = NettenBrüte(kisi, gelirVergisi, vergiIndirimi, Oranlar)
+            kisiler.push(kisi)
+        })
+
+        listele(kisiler)
+    }
+        
 }
 
 function AgiBul() {
@@ -215,6 +246,83 @@ function BrüttenNete(kisiParametre, gelirVergisi, vergiIndirimi, Oranlar) {
     kisi.sigortaVeİssizlikPayı = isverenMaaliyet.toFixed(2)
     return kisi
 }
+function NettenBrüte(kisiParametre, gelirVergisi, vergiIndirimi, Oranlar) {
+    let kisi = {
+        ay: "",
+        brütMaas: 0,
+        sgkIsciPayi: 0,
+        sgkIssizlikIsciPayi: 0,
+        damgaVergisi: 0,
+        gelirVergisi: 0,
+        vergiDilim: 0,
+        netTutar: 0,
+        agi: 0,
+        odenecekTutar: 0,
+        sigortaVeİssizlikPayı: 0
+    }
+    kisi = kisiParametre
+    if (gelirVergisi == 0.15)
+        kisi.brütMaas = kisi.netTutar * 1.3989;
+    else if (gelirVergisi == 0.2) {
+        kisi.brütMaas = kisi.netTutar * 1.3989;
+        kisi.brütMaas += kisi.brütMaas * 0.06315;
+    }
+    else if (gelirVergisi == 0.27) {
+        kisi.brütMaas = kisi.netTutar * 1.3989;
+        kisi.brütMaas += kisi.brütMaas * 0.16635;
+    }
+    else if (gelirVergisi == 0.35) {
+        kisi.brütMaas = kisi.netTutar * 1.3989;
+        kisi.brütMaas += kisi.brütMaas * 0.3119;
+    }
+    else {
+        kisi.brütMaas = kisi.netTutar * 1.3989;
+        kisi.brütMaas += kisi.brütMaas * 0.42288;
+    }
+   
+    let gelirVergisiMatrahi
+    let vergiKesintisi
+    let kesintiToplam
+    let netUcret
+    let isverenMaaliyet
+    let indirimSonrasiGelirVergisiMahrahi
+    let aylikGelirVergisi
+    let odenecekTutar
+    let sgkIsciPayi = kisi.brütMaas * Oranlar.sgkIsciPayiOranı;
+    let sgkIssizlikIsciPayi = kisi.brütMaas * Oranlar.sgkIssizlikIsciPayiOranı;
+    gelirVergisiMatrahi = kisi.brütMaas - sgkIsciPayi - sgkIssizlikIsciPayi;
+
+    indirimSonrasiGelirVergisiMahrahi = gelirVergisiMatrahi - vergiIndirimi;
+    //vergi kesintisi = gelir vergisi matrahı x gelir vergisi oranı + brüt maaş x damga vergisi
+    aylikGelirVergisi = indirimSonrasiGelirVergisiMahrahi * gelirVergisi;
+
+    vergiKesintisi = aylikGelirVergisi + kisi.brütMaas * Oranlar.damgaVergisi;
+
+    kesintiToplam = sgkIsciPayi + sgkIssizlikIsciPayi + vergiKesintisi;
+
+    netUcret = kisi.brütMaas - kesintiToplam;
+
+    if (kisi.agi > aylikGelirVergisi)
+        odenecekTutar = netUcret + aylikGelirVergisi;
+    else
+        odenecekTutar = netUcret + kisi.agi;
+
+    // Eğer engelli birisini çalıştırıyorsa işveren maaliyetleri devlet tarafından karşılanır
+    if (vergiIndirimi != 0)
+        isverenMaaliyet = 0;
+    else
+        isverenMaaliyet = kisi.brütMaas + kisi.brütMaas * Oranlar.sgkIsverenPayiOranı + kisi.brütMaas * Oranlar.sgkIssizlikIsverenPayiOranı;
+
+    kisi.sgkIsciPayi = sgkIsciPayi.toFixed(2)
+    kisi.sgkIssizlikIsciPayi = sgkIssizlikIsciPayi.toFixed(2)
+    kisi.damgaVergisi = (gelirVergisiMatrahi * Oranlar.damgaVergisi).toFixed(2)
+    kisi.gelirVergisi = (gelirVergisiMatrahi * gelirVergisi).toFixed(2)
+    kisi.vergiDilim = parseInt(gelirVergisi * 100);
+    kisi.netTutar = netUcret.toFixed(2)
+    kisi.odenecekTutar = odenecekTutar.toFixed(2)
+    kisi.sigortaVeİssizlikPayı = isverenMaaliyet.toFixed(2)
+    return kisi
+}
 function listele(kisilerParametre) {
     let kiailer = []
     kisiler = kisilerParametre
@@ -251,7 +359,7 @@ function listele(kisilerParametre) {
         footer.sigortaVeİssizlikPayı += parseFloat(kisi.sigortaVeİssizlikPayı)
         html += ` <tr>
                   <td>${kisi.ay}</td>
-                  <th>${kisi.brütMaas}</th>
+                  <th>${kisi.brütMaas.toFixed(2)}</th>
                   <th>${kisi.sgkIsciPayi}</th>
                   <th>${kisi.sgkIssizlikIsciPayi}</th>
                   <th>${kisi.damgaVergisi}</th>

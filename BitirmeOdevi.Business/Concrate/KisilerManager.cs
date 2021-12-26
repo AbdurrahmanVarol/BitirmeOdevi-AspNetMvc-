@@ -1,4 +1,5 @@
-﻿using BitirmeOdevi.DataAccess.Abstract;
+﻿using BitirmeOdevi.Business.Abstract;
+using BitirmeOdevi.DataAccess.Abstract;
 using BitirmeOdevi.Entities.Concrate;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BitirmeOdevi.Business.Concrate
 {
-    public class KisilerManager
+    public class KisilerManager : IKisilerService
     {
         private IKisilerDal _kisilerDal;
 
