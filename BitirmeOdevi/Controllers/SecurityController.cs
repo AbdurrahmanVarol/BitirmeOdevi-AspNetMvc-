@@ -99,6 +99,7 @@ namespace BitirmeOdevi.Controllers
             {
                 Response.Cookies["Login"].Expires = DateTime.Now.AddDays(-1);
             }
+
             return RedirectToAction("Login");
         }
     }
