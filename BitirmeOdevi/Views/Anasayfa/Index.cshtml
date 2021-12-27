@@ -38,15 +38,13 @@
     </style>
 </head>
 <body>
-
     <div class="p-3  bg-white content">
         <div class="mb-3" style="width:10%; margin-left:90%;">
             <div class="btn-group w-100">
                 <a class="btn" style="background-color: #2980b9; color: #ecf0f1; " href="/Security/Login">Giriş Yap</a>
             </div>
         </div>
-        <div class=" mb-5 rounded">
-            
+        <div class=" mb-5 rounded">            
                 <div class="form-group row mb-3 ">
                     <div class="col align-items-start h-25 ">
                         <div class="row">
@@ -123,14 +121,8 @@
                     </div>
                 </div>
                 <input type="submit" id="hesapla" class="btn" style="margin-bottom:2%; width:30%; margin-left:35%; background-color: #27ae60; color: #ecf0f1;" onclick="maasHesapla()" value="HESAPLA" />
-                @*<button type="submit" onclick="Hesapla()" class="btn" style="margin-bottom:2%; width:30%; margin-left:35%; background-color: #27ae60; color: #ecf0f1;">Hesapla</button>*@
-            
-
-
             <div id="sonuc" class="table-responsive bg-light bg-opacity-25 justify-content-center align-items-center" hidden>
-
                 <button style="width: 5%; margin-left: 94%; background-color: #c0392b!important;" class="mb-2 btn btn-danger d-inline-block" onclick="kapat()">Kapat</button>
-
                 <table class="table table-bordered table-striped table-sm">
                     <thead>
                         <tr>
@@ -336,13 +328,7 @@
                 </table>
             </div>
         </div>
-
-
     </div>
-
-
-
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript">
@@ -410,8 +396,7 @@
             if (cocukSayisi == "")
                 kisiModel.cocukSayisi = 0
             else
-                kisiModel.cocukSayisi = parseInt(cocukSayisi)
-                
+                kisiModel.cocukSayisi = parseInt(cocukSayisi)                
         
             let footer =
             {
@@ -498,10 +483,6 @@
                     $("#body").html(bodyData);
                     $("#footer").html("");
                     $("#footer").html(footerData);
-                    
-
-
-
                 }
             });
         }

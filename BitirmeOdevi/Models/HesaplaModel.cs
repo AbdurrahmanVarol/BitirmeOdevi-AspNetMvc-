@@ -10,8 +10,7 @@ namespace BitirmeOdevi.Models
         public string ay { get; set; }
         public double brütMaas { get; set; }
         public double sgkIsciPayi { get; set; }
-        public double sgkIssizlikIsciPayi { get; set; }
-        
+        public double sgkIssizlikIsciPayi { get; set; }        
         public double damgaVergisi { get; set; }
         public double gelirVergisi { get; set; }
         public double vergiDilim { get; set; }

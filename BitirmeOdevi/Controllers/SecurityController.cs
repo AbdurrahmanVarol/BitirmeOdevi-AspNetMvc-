@@ -4,6 +4,7 @@ using BitirmeOdevi.DataAccess.Concrate;
 using BitirmeOdevi.Entities;
 using BitirmeOdevi.Entities.Concrate;
 using BitirmeOdevi.Models;
+using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -94,7 +95,10 @@ namespace BitirmeOdevi.Controllers
 
         public ActionResult Logout()
         {
-            Response.Cookies.Remove("Login");
+            if (Request.Cookies["Login"] != null)
+            {
+                Response.Cookies["Login"].Expires = DateTime.Now.AddDays(-1);
+            }
             return RedirectToAction("Login");
         }
     }
