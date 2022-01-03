@@ -49,7 +49,6 @@ namespace BitirmeOdevi.Controllers
             {
                 List<Kisiler> kisiDatabase = new List<Kisiler>();
                 List<kisiModel> kisiModels = new List<kisiModel>();
-                ViewBag.id = Request.Cookies["Login"].Value;
                 kisiDatabase = _kisilerManager.GetAll("kullaniciId="+ Request.Cookies["Login"].Value.ToString());
                 
                 foreach (var val in kisiDatabase)
@@ -103,7 +102,6 @@ namespace BitirmeOdevi.Controllers
                 kisi.agiId = _agiManager.Get("medeniDurum='" + kisiModel.medeniDurum + "' and cocukSayisi=" +kisiModel.cocukSayisi.ToString()).agiId;
 
             if (kisiModel.id != 0)
-
                 _kisilerManager.Update(kisi);
             else
                 _kisilerManager.Add(kisi);

@@ -1,19 +1,19 @@
 ﻿using BitirmeOdevi.DataAccess.Abstract;
-using BitirmeOdevi.Entities;
+using BitirmeOdevi.Entities.Concrate;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace BitirmeOdevi.DataAccess.Concrate
 {
     public class KullaniciDal : IKullaniciDal
     {
-        SqlConnection _baglanti = new SqlConnection("Data Source=DESKTOP-OTMDOAG\\SQLEXPRESS;Initial Catalog=BitirmeOdevi;Integrated Security=True");
+        SqlConnection _baglanti = new SqlConnection(ConfigurationManager.ConnectionStrings["BitirmeOdevi_SqlConnection"].ConnectionString);
         SqlCommand _komut = new SqlCommand();
         SqlDataReader _dr;
         public void Add(Kullanici kullanici)

@@ -1,4 +1,4 @@
-﻿using BitirmeOdevi.Entities;
+﻿using BitirmeOdevi.Entities.Concrate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
