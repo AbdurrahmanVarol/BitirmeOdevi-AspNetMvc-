@@ -74,7 +74,7 @@ namespace BitirmeOdevi.Controllers
 
                 vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;               
                 HesaplaModel hesaplaModel = new HesaplaModel();
-                hesaplaModel = hesapla.BrüttenNete(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
+                hesapla.BrüttenNete(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
                 hesaplaModel.ay = ay;
                 hesaplaModels.Add(hesaplaModel);
                 toplamMaas += kisiModel.maas;
@@ -110,7 +110,7 @@ namespace BitirmeOdevi.Controllers
 
                 vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;
                 HesaplaModel hesaplaModel = new HesaplaModel();
-                hesaplaModel = hesapla.NettenBrüte(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
+                hesapla.NettenBrüte(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
                 hesaplaModel.ay = ay;
                 hesaplaModels.Add(hesaplaModel);
                 toplamMaas += kisiModel.maas;

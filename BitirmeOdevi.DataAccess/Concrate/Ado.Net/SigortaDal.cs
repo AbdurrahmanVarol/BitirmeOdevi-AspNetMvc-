@@ -7,12 +7,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace BitirmeOdevi.DataAccess.Concrate
 {
     public class SigortaDal:ISigortaDal
     {
-        SqlConnection _baglanti = new SqlConnection("Data Source=DESKTOP-OTMDOAG\\SQLEXPRESS;Initial Catalog=BitirmeOdevi;Integrated Security=True");
+        SqlConnection _baglanti = new SqlConnection(ConfigurationManager.ConnectionStrings["BitirmeOdevi_SqlConnection"].ConnectionString);
         SqlCommand _komut = new SqlCommand();
         SqlDataReader _dr;
         public void Add(Sigorta sigorta)

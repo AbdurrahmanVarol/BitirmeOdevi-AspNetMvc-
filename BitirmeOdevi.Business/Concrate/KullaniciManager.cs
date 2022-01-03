@@ -1,9 +1,8 @@
 ﻿using BitirmeOdevi.Business.Abstract;
 using BitirmeOdevi.DataAccess.Abstract;
-using BitirmeOdevi.Entities;
+using BitirmeOdevi.Entities.Concrate;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +28,7 @@ namespace BitirmeOdevi.Business.Concrate
             {
                 _kullaniciDal.Delete(id);
             }
-            catch(DbUpdateException exception)
+            catch(Exception exception)
             {
                 
             }

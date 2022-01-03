@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BitirmeOdevi.Entities
+namespace BitirmeOdevi.Entities.Concrate
 {
     public class Kullanici:IEntity
     {

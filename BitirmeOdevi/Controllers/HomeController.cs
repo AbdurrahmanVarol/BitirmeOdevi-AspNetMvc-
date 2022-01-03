@@ -1,5 +1,7 @@
-﻿using BitirmeOdevi.Business.Concrate;
+﻿using BitirmeOdevi.Business.Abstract;
+using BitirmeOdevi.Business.Concrate;
 using BitirmeOdevi.DataAccess.Concrate;
+using BitirmeOdevi.DataAccess.Concrate.EntityFramework;
 using BitirmeOdevi.Entities;
 using BitirmeOdevi.Entities.Concrate;
 using BitirmeOdevi.Hesaplama;
@@ -14,12 +16,12 @@ namespace BitirmeOdevi.Controllers
 {
     public class HomeController : Controller
     {
-        KullaniciManager _kullaniciManager = new KullaniciManager(new KullaniciDal());
-        KisilerManager _kisilerManager = new KisilerManager(new KisilerDal());
-        VergiDilimiManager _vergiDilimiManager = new VergiDilimiManager(new VergiDilimiDal());
-        AgiManager _agiManager = new AgiManager(new AgiDal());
-        SigortaManager _sigortaManager = new SigortaManager(new SigortaDal());
-        SakatlikManager _sakatlikManager = new SakatlikManager(new SakatlikDal());
+        IKullaniciService _kullaniciManager = new KullaniciManager(new EfKullaniciDal());
+        IKisilerService _kisilerManager = new KisilerManager(new KisilerDal());
+        IVergiDİlimiService _vergiDilimiManager = new VergiDilimiManager(new VergiDilimiDal());
+        IAgiService _agiManager = new AgiManager(new AgiDal());
+        ISigortaService _sigortaManager = new SigortaManager(new SigortaDal());
+        ISakatlikService _sakatlikManager = new SakatlikManager(new SakatlikDal());
         List<string> _aylar = new List<string>();
 
         public void ayEkle()
@@ -49,7 +51,6 @@ namespace BitirmeOdevi.Controllers
             {
                 List<Kisiler> kisiDatabase = new List<Kisiler>();
                 List<kisiModel> kisiModels = new List<kisiModel>();
-                ViewBag.id = Request.Cookies["Login"].Value;
                 kisiDatabase = _kisilerManager.GetAll("kullaniciId="+ Request.Cookies["Login"].Value.ToString());
                 
                 foreach (var val in kisiDatabase)
@@ -103,7 +104,6 @@ namespace BitirmeOdevi.Controllers
                 kisi.agiId = _agiManager.Get("medeniDurum='" + kisiModel.medeniDurum + "' and cocukSayisi=" +kisiModel.cocukSayisi.ToString()).agiId;
 
             if (kisiModel.id != 0)
-
                 _kisilerManager.Update(kisi);
             else
                 _kisilerManager.Add(kisi);
@@ -157,7 +157,7 @@ namespace BitirmeOdevi.Controllers
 
                 vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;                
                 HesaplaModel hesaplaModel = new HesaplaModel();
-                hesaplaModel = hesapla.BrüttenNete(hesaplaModel, kisi.maas, vergi, agi, vergiMuhafiyeti, kisi.sigortaId);
+                hesapla.BrüttenNete(hesaplaModel, kisi.maas, vergi, agi, vergiMuhafiyeti, kisi.sigortaId);
                 hesaplaModel.ay = ay;
                 hesaplaModels.Add(hesaplaModel);
                 toplamMaas += kisi.maas;
@@ -185,7 +185,7 @@ namespace BitirmeOdevi.Controllers
             {
                 vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;                
                 HesaplaModel hesaplaModel = new HesaplaModel();
-                hesaplaModel = hesapla.NettenBrüte(hesaplaModel, kisi.maas, vergi, agi, vergiMuhafiyeti, kisi.sigortaId);
+                hesapla.NettenBrüte(hesaplaModel, kisi.maas, vergi, agi, vergiMuhafiyeti, kisi.sigortaId);
                 hesaplaModel.ay = ay;
                 toplamMaas += Convert.ToInt32(hesaplaModel.brütMaas);
                 hesaplaModels.Add(hesaplaModel);

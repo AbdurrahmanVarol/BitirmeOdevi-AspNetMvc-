@@ -6,7 +6,7 @@ using System.Web;
 
 namespace BitirmeOdevi.Hesaplama
 {
-    public class Hesapla
+    public class Hesapla:IHesapla
     {
         double sgkIsciPayiOranı;
         double sgkIssizlikIsciPayiOranı;
@@ -14,7 +14,8 @@ namespace BitirmeOdevi.Hesaplama
         double sgkIssizlikIsverenPayiOranı;
         double damgaVergisi;
 
-        public HesaplaModel NettenBrüte(HesaplaModel hesaplaModel, double netMaas, double gelirVergisi, double agi, double vergiMuhafiyeti, int emekliId)
+        
+        public void NettenBrüte(HesaplaModel hesaplaModel, double netMaas, double gelirVergisi, double agi, double vergiMuhafiyeti, int emekliId)
         {
             if (emekliId == 1)
             {
@@ -103,14 +104,12 @@ namespace BitirmeOdevi.Hesaplama
             hesaplaModel.agi = Math.Round(agi, 2);
             hesaplaModel.odenecekTutar = Math.Round(odenecekTutar, 2);
             hesaplaModel.sigortaVeİssizlikPayı = Math.Round(isverenMaaliyet, 2);
-            return hesaplaModel;
-
         }
 
         //Engelli için fark vargi muhafiyetini gelir vergisi mahrahından düşeceksin
         // Agi maksimum gelir vergisi kadar olabilir.
 
-        public HesaplaModel BrüttenNete(HesaplaModel hesaplaModel, double brütMaas, double gelirVergisi, double agi, double vergiMuhafiyeti, int emekliId)
+        public void BrüttenNete(HesaplaModel hesaplaModel, double brütMaas, double gelirVergisi, double agi, double vergiMuhafiyeti, int emekliId)
         {
 
             if (emekliId == 1)
@@ -177,7 +176,6 @@ namespace BitirmeOdevi.Hesaplama
             hesaplaModel.agi = Math.Round(agi, 2);
             hesaplaModel.odenecekTutar = Math.Round(odenecekTutar, 2);
             hesaplaModel.sigortaVeİssizlikPayı = Math.Round(isverenMaaliyet, 2);
-            return hesaplaModel;
         }
 
 
