@@ -20,6 +20,7 @@ namespace BitirmeOdevi.Controllers
         SigortaManager _sigortaManager = new SigortaManager(new SigortaDal());
         SakatlikManager _sakatlikManager = new SakatlikManager(new SakatlikDal());
         List<string> _aylar = new List<string>();
+        IHesapla _hesapla = new Hesapla();
 
         public void ayEkle()
         {
@@ -53,7 +54,7 @@ namespace BitirmeOdevi.Controllers
             double agi;
             double vergiMuhafiyeti;
             
-            Hesapla hesapla = new Hesapla();
+            
             List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
             ayEkle();
             string agiSorgu = "";
@@ -74,7 +75,7 @@ namespace BitirmeOdevi.Controllers
 
                 vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;               
                 HesaplaModel hesaplaModel = new HesaplaModel();
-                hesapla.BrüttenNete(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
+                _hesapla.BrüttenNete(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
                 hesaplaModel.ay = ay;
                 hesaplaModels.Add(hesaplaModel);
                 toplamMaas += kisiModel.maas;
@@ -89,7 +90,6 @@ namespace BitirmeOdevi.Controllers
             double agi;
             double vergiMuhafiyeti;
 
-            Hesapla hesapla = new Hesapla();
             List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
             ayEkle();
             string agiSorgu = "";
@@ -110,7 +110,7 @@ namespace BitirmeOdevi.Controllers
 
                 vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;
                 HesaplaModel hesaplaModel = new HesaplaModel();
-                hesapla.NettenBrüte(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
+                _hesapla.NettenBrüte(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
                 hesaplaModel.ay = ay;
                 hesaplaModels.Add(hesaplaModel);
                 toplamMaas += kisiModel.maas;
