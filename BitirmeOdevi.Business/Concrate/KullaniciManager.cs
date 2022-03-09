@@ -29,7 +29,7 @@ namespace BitirmeOdevi.Business.Concrate
             {
                 _kullaniciDal.Delete(kullanici);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
 
             }

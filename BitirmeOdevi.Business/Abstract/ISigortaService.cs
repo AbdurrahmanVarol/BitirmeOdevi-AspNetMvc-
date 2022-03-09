@@ -10,8 +10,8 @@ namespace BitirmeOdevi.Business.Abstract
 {
     public interface ISigortaService
     {
-        List<Sigorta> GetAll(Expression<Func<Sigorta, bool>> filter = null);
-        Sigorta Get(Expression<Func<Sigorta, bool>> filter);
+        List<Sigorta> GetAll();
+        Sigorta Get(int id);
         void Add(Sigorta sigorta);
         void Delete(Sigorta sigorta);
         void Update(Sigorta sigorta);

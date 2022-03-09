@@ -30,7 +30,7 @@ namespace BitirmeOdevi.Business.Concrate
             {
                 _kisilerDal.Delete(kisi);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
 
             }

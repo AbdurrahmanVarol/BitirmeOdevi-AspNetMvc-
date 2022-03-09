@@ -30,20 +30,20 @@ namespace BitirmeOdevi.Business.Concrate
             {
                 _sakatlikDal.Delete(sakatlik);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
 
             }
         }
 
-        public Sakatlik Get(Expression<Func<Sakatlik, bool>> filter)
+        public Sakatlik Get(int id)
         {
-            return _sakatlikDal.Get(filter);
+            return _sakatlikDal.Get(p=>p.sakatlikId==id);
         }
 
-        public List<Sakatlik> GetAll(Expression<Func<Sakatlik, bool>> filter = null)
+        public List<Sakatlik> GetAll()
         {
-            return _sakatlikDal.GetAll(filter);
+            return _sakatlikDal.GetAll();
         }
 
 

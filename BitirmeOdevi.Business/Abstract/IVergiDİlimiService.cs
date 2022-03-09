@@ -10,8 +10,9 @@ namespace BitirmeOdevi.Business.Abstract
 {
     public interface IVergiDİlimiService
     {
-        List<VergiDilimi> GetAll(Expression<Func<VergiDilimi, bool>> filter = null);
-        VergiDilimi Get(Expression<Func<VergiDilimi, bool>> filter);
+        List<VergiDilimi> GetAll();
+        VergiDilimi Get(int id);
+        VergiDilimi GetByTotalSalary(double totalSalary);
         void Add(VergiDilimi vergi);
         void Delete(VergiDilimi vergi);
         void Update(VergiDilimi vergi);

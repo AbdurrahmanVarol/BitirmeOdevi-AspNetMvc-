@@ -30,20 +30,25 @@ namespace BitirmeOdevi.Business.Concrate
             {
                 _vergiDilimiDal.Delete(vergi);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
 
             }
         }
 
-        public VergiDilimi Get(Expression<Func<VergiDilimi, bool>> filter)
+        public VergiDilimi Get(int id)
         {
-            return _vergiDilimiDal.Get(filter);
+            return _vergiDilimiDal.Get(p=>p.id==id);
+        }
+        public VergiDilimi GetByTotalSalary(double totalSalary)
+        {
+            return _vergiDilimiDal.Get(p => p.minMaas<= totalSalary && p.maxMaas>= totalSalary);
         }
 
-        public List<VergiDilimi> GetAll(Expression<Func<VergiDilimi, bool>> filter = null)
+
+        public List<VergiDilimi> GetAll()
         {
-            return _vergiDilimiDal.GetAll(filter);
+            return _vergiDilimiDal.GetAll();
         }
 
 

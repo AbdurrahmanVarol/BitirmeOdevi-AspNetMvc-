@@ -15,16 +15,14 @@ namespace BitirmeOdevi.Controllers
 {
     public class AnasayfaController : Controller
     {
-        IKullaniciService _kullaniciManager = new KullaniciManager(new EfKullaniciDal());
-        IKisilerService _kisilerManager = new KisilerManager(new EfKisilerDal());
+        
         IVergiDİlimiService _vergiDilimiManager = new VergiDilimiManager(new EfVergiDilimiDal());
         IAgiService _agiManager = new AgiManager(new EfAgiDal());
-        ISigortaService _sigortaManager = new SigortaManager(new EfSigortaDal());
         ISakatlikService _sakatlikManager = new SakatlikManager(new EfSakatlikDal());
         List<string> _aylar = new List<string>();
         IHesapla _hesapla = new Hesapla();
 
-        public void ayEkle()
+        public void AyEkle()
         {
             _aylar.Clear();
             _aylar.Add("ocak");
@@ -58,7 +56,7 @@ namespace BitirmeOdevi.Controllers
             
             
             List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
-            ayEkle();
+            AyEkle();
            
             if (kisiModel.medeniDurum == "Bekar" || kisiModel.medeniDurum == "Faydalanmayacak")
                 agi = _agiManager.GetByCondition(kisiModel.medeniDurum).agiMiktari;
@@ -70,12 +68,12 @@ namespace BitirmeOdevi.Controllers
                     agi = _agiManager.GetByConditionAndChild(kisiModel.medeniDurum, kisiModel.cocukSayisi).agiMiktari;
             }
 
-            vergiMuhafiyeti = _sakatlikManager.Get(p=>p.sakatlikId==kisiModel.sakatlikId).indirim;
+            vergiMuhafiyeti = _sakatlikManager.Get(kisiModel.sakatlikId).indirim;
             foreach (var ay in _aylar)
             {
 
-                var vergiDilimi = _vergiDilimiManager.Get(p => p.minMaas<=toplamMaas && p.maxMaas>=toplamMaas);
-                vergi = vergiDilimi!=null ? vergiDilimi.vergiDilimi : 0.15;
+                vergi = _vergiDilimiManager.GetByTotalSalary(toplamMaas).vergiDilimi;
+                
 
                 HesaplaModel hesaplaModel = new HesaplaModel();
                 _hesapla.BrüttenNete(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
@@ -94,7 +92,7 @@ namespace BitirmeOdevi.Controllers
             double vergiMuhafiyeti;
 
             List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
-            ayEkle();
+            AyEkle();
             if (kisiModel.medeniDurum == "Bekar" || kisiModel.medeniDurum == "Faydalanmayacak")
                 agi = _agiManager.GetByCondition(kisiModel.medeniDurum).agiMiktari;
             else
@@ -105,11 +103,11 @@ namespace BitirmeOdevi.Controllers
                     agi = _agiManager.GetByConditionAndChild(kisiModel.medeniDurum, kisiModel.cocukSayisi).agiMiktari;
             }
 
-            vergiMuhafiyeti = _sakatlikManager.Get(p => p.sakatlikId == kisiModel.sakatlikId).indirim;
+            vergiMuhafiyeti = _sakatlikManager.Get(kisiModel.sakatlikId).indirim;
             foreach (var ay in _aylar)
             {
 
-                vergi = _vergiDilimiManager.Get(p => p.minMaas <= toplamMaas && p.minMaas > toplamMaas).vergiDilimi;
+                vergi = _vergiDilimiManager.GetByTotalSalary(toplamMaas).vergiDilimi;
                 HesaplaModel hesaplaModel = new HesaplaModel();
                 _hesapla.NettenBrüte(hesaplaModel, kisiModel.maas, vergi, agi, vergiMuhafiyeti, kisiModel.sigortaId);
                 hesaplaModel.ay = ay;

@@ -10,8 +10,8 @@ namespace BitirmeOdevi.Business.Abstract
 {
     public interface ISakatlikService
     {
-        List<Sakatlik> GetAll(Expression<Func<Sakatlik, bool>> filter = null);
-        Sakatlik Get(Expression<Func<Sakatlik, bool>> filter);
+        List<Sakatlik> GetAll();
+        Sakatlik Get(int id);
         void Add(Sakatlik sakatlik);
         void Delete(Sakatlik sakatlik);
         void Update(Sakatlik sakatlik);

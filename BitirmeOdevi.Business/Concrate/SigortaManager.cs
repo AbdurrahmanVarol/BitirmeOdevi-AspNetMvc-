@@ -30,20 +30,20 @@ namespace BitirmeOdevi.Business.Concrate
             {
                 _sigortaDal.Delete(sigorta);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
 
             }
         }
 
-        public Sigorta Get(Expression<Func<Sigorta, bool>> filter)
+        public Sigorta Get(int id)
         {
-            return _sigortaDal.Get(filter);
+            return _sigortaDal.Get(p=>p.sigortaId==id);
         }
 
-        public List<Sigorta> GetAll(Expression<Func<Sigorta, bool>> filter = null)
+        public List<Sigorta> GetAll()
         {
-            return _sigortaDal.GetAll(filter);
+            return _sigortaDal.GetAll();
         }
 
 

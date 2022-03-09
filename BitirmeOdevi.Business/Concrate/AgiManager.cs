@@ -12,7 +12,7 @@ namespace BitirmeOdevi.Business.Concrate
 {
     public class AgiManager : IAgiService
     {
-        private IAgiDal _agiDal;
+        private  IAgiDal _agiDal;
 
         public AgiManager(IAgiDal agiDal)
         {
