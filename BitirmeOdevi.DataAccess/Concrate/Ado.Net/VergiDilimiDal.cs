@@ -8,117 +8,145 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Linq.Expressions;
 
 namespace BitirmeOdevi.DataAccess.Concrate
 {
-    public class VergiDilimiDal:IVergiDilimiDal
+    public class VergiDilimiDal : IVergiDilimiDal
     {
-        SqlConnection _baglanti = new SqlConnection(ConfigurationManager.ConnectionStrings["BitirmeOdevi_SqlConnection"].ConnectionString);
-        SqlCommand _komut = new SqlCommand();
-        SqlDataReader _dr;
-        public void Add(VergiDilimi vergiDilimi)
+
+
+        //{
+        //    SqlConnection _baglanti = new SqlConnection(ConfigurationManager.ConnectionStrings["BitirmeOdevi_SqlConnection"].ConnectionString);
+        //    SqlCommand _komut = new SqlCommand();
+        //    SqlDataReader _dr;
+        //    public void Add(VergiDilimi vergiDilimi)
+        //    {
+        //        _komut.Connection = _baglanti;
+        //        _komut.CommandType = CommandType.Text;
+
+        //        if (_baglanti.State == ConnectionState.Open)
+        //            _baglanti.Close();
+
+        //        _baglanti.Open();
+
+        //        _komut.CommandText = "insert into VergiDilimi (minMaas,maxMaas,vergiDilimi) values(@minMaas,@maxMaas,@vergiDilimi)";
+        //        _komut.Parameters.AddWithValue("@minMaas", vergiDilimi.minMaas);
+        //        _komut.Parameters.AddWithValue("@maxMaas", vergiDilimi.maxMaas);
+        //        _komut.Parameters.AddWithValue("@vergiDilimi", vergiDilimi.vergiDilimi);
+        //        _komut.ExecuteNonQuery();
+        //        _baglanti.Close();
+        //    }
+
+        //    public void Delete(int id)
+        //    {
+        //        _komut.Connection = _baglanti;
+        //        _komut.CommandType = CommandType.Text;
+
+        //        if (_baglanti.State == ConnectionState.Open)
+        //            _baglanti.Close();
+
+        //        _baglanti.Open();
+        //        _komut.CommandText = "delete from VergiDilimi where id=@id";
+        //        _komut.Parameters.AddWithValue("@id", id);
+        //        _komut.ExecuteNonQuery();
+        //        _baglanti.Close();
+        //    }
+
+        //    public VergiDilimi Get(string filter = null)
+        //    {
+        //        _komut.Connection = _baglanti;
+        //        _komut.CommandType = CommandType.Text;
+        //        if (_baglanti.State == ConnectionState.Open)
+        //            _baglanti.Close();
+
+        //        _baglanti.Open();
+        //        if (string.IsNullOrEmpty(filter))
+        //            _komut.CommandText = "select*from VergiDilimi";
+        //        else
+        //            _komut.CommandText = "select * from VergiDilimi where " + filter;
+        //        _dr = _komut.ExecuteReader();
+        //        _dr.Read();
+        //        VergiDilimi vergiDilimi = new VergiDilimi()
+        //        {
+        //            id = Convert.ToInt32(_dr["id"]),
+        //            minMaas = Convert.ToDouble(_dr["minMaas"]),
+        //            maxMaas = Convert.ToDouble(_dr["maxMaas"]),
+        //            vergiDilimi = Convert.ToDouble(_dr["vergiDilimi"])
+        //        };
+        //        _baglanti.Close();
+        //        _dr.Close();
+        //        return vergiDilimi;
+        //    }
+
+        //    public List<VergiDilimi> GetAll(string filter = null)
+        //    {
+        //        List<VergiDilimi> vergiDilimis = new List<VergiDilimi>();
+        //        _komut.Connection = _baglanti;
+        //        _komut.CommandType = CommandType.Text;
+        //        if (_baglanti.State == ConnectionState.Open)
+        //            _baglanti.Close();
+
+        //        _baglanti.Open();
+        //        if (string.IsNullOrEmpty(filter))
+        //            _komut.CommandText = "select*from VergiDilimi";
+        //        else
+        //            _komut.CommandText = "select*from VergiDilimi where " + filter;
+        //        _dr = _komut.ExecuteReader();
+        //        while (_dr.Read())
+        //        {
+        //            VergiDilimi vergiDilimi = new VergiDilimi()
+        //            {
+        //                id = Convert.ToInt32(_dr["id"]),
+        //                minMaas = Convert.ToDouble(_dr["minMaasad"]),
+        //                maxMaas = Convert.ToDouble(_dr["maxMaas"]),
+        //                vergiDilimi = Convert.ToDouble(_dr["vergiDilimi"])
+        //            };
+        //            vergiDilimis.Add(vergiDilimi);
+        //        }
+        //        _baglanti.Close();
+        //        _dr.Close();
+        //        return vergiDilimis;
+        //    }
+
+        //    public void Update(VergiDilimi vergiDilimi)
+        //    {
+        //        _komut.Connection = _baglanti;
+        //        _komut.CommandType = CommandType.Text;
+        //        if (_baglanti.State == ConnectionState.Open)
+        //            _baglanti.Close();
+
+        //        _baglanti.Open();
+        //        _komut.CommandText = "Update VergiDilimi Set minMaas=@minMaas,maxMaas=@maxMaas,vergiDilimi=@vergiDilimi where id=@id)";
+        //        _komut.Parameters.AddWithValue("@id", vergiDilimi.id);
+        //        _komut.Parameters.AddWithValue("@minMaas", vergiDilimi.minMaas);
+        //        _komut.Parameters.AddWithValue("@maxMaas", vergiDilimi.maxMaas);
+        //        _komut.Parameters.AddWithValue("@vergiDilimi", vergiDilimi.vergiDilimi);
+        //        _baglanti.Close();
+        //    }
+        public void Add(VergiDilimi entity)
         {
-            _komut.Connection = _baglanti;
-            _komut.CommandType = CommandType.Text;
-
-            if (_baglanti.State == ConnectionState.Open)
-                _baglanti.Close();
-
-            _baglanti.Open();
-
-            _komut.CommandText = "insert into VergiDilimi (minMaas,maxMaas,vergiDilimi) values(@minMaas,@maxMaas,@vergiDilimi)";
-            _komut.Parameters.AddWithValue("@minMaas", vergiDilimi.minMaas);
-            _komut.Parameters.AddWithValue("@maxMaas", vergiDilimi.maxMaas);
-            _komut.Parameters.AddWithValue("@vergiDilimi", vergiDilimi.vergiDilimi);
-            _komut.ExecuteNonQuery();
-            _baglanti.Close();
+            throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public void Delete(VergiDilimi entity)
         {
-            _komut.Connection = _baglanti;
-            _komut.CommandType = CommandType.Text;
-
-            if (_baglanti.State == ConnectionState.Open)
-                _baglanti.Close();
-
-            _baglanti.Open();
-            _komut.CommandText = "delete from VergiDilimi where id=@id";
-            _komut.Parameters.AddWithValue("@id", id);
-            _komut.ExecuteNonQuery();
-            _baglanti.Close();
+            throw new NotImplementedException();
         }
 
-        public VergiDilimi Get(string filter = null)
+        public VergiDilimi Get(Expression<Func<VergiDilimi, bool>> filter)
         {
-            _komut.Connection = _baglanti;
-            _komut.CommandType = CommandType.Text;
-            if (_baglanti.State == ConnectionState.Open)
-                _baglanti.Close();
-
-            _baglanti.Open();
-            if (string.IsNullOrEmpty(filter))
-                _komut.CommandText = "select*from VergiDilimi";
-            else
-                _komut.CommandText = "select * from VergiDilimi where " + filter;
-            _dr = _komut.ExecuteReader();
-            _dr.Read();
-            VergiDilimi vergiDilimi = new VergiDilimi()
-            {
-                id = Convert.ToInt32(_dr["id"]),
-                minMaas = Convert.ToDouble(_dr["minMaas"]),
-                maxMaas = Convert.ToDouble(_dr["maxMaas"]),
-                vergiDilimi = Convert.ToDouble(_dr["vergiDilimi"])
-            };
-            _baglanti.Close();
-            _dr.Close();
-            return vergiDilimi;
+            throw new NotImplementedException();
         }
 
-        public List<VergiDilimi> GetAll(string filter = null)
+        public List<VergiDilimi> GetAll(Expression<Func<VergiDilimi, bool>> filter = null)
         {
-            List<VergiDilimi> vergiDilimis = new List<VergiDilimi>();
-            _komut.Connection = _baglanti;
-            _komut.CommandType = CommandType.Text;
-            if (_baglanti.State == ConnectionState.Open)
-                _baglanti.Close();
-
-            _baglanti.Open();
-            if (string.IsNullOrEmpty(filter))
-                _komut.CommandText = "select*from VergiDilimi";
-            else
-                _komut.CommandText = "select*from VergiDilimi where " + filter;
-            _dr = _komut.ExecuteReader();
-            while (_dr.Read())
-            {
-                VergiDilimi vergiDilimi = new VergiDilimi()
-                {
-                    id = Convert.ToInt32(_dr["id"]),
-                    minMaas = Convert.ToDouble(_dr["minMaasad"]),
-                    maxMaas = Convert.ToDouble(_dr["maxMaas"]),
-                    vergiDilimi = Convert.ToDouble(_dr["vergiDilimi"])
-                };
-                vergiDilimis.Add(vergiDilimi);
-            }
-            _baglanti.Close();
-            _dr.Close();
-            return vergiDilimis;
+            throw new NotImplementedException();
         }
 
-        public void Update(VergiDilimi vergiDilimi)
+        public void Update(VergiDilimi entity)
         {
-            _komut.Connection = _baglanti;
-            _komut.CommandType = CommandType.Text;
-            if (_baglanti.State == ConnectionState.Open)
-                _baglanti.Close();
-
-            _baglanti.Open();
-            _komut.CommandText = "Update VergiDilimi Set minMaas=@minMaas,maxMaas=@maxMaas,vergiDilimi=@vergiDilimi where id=@id)";
-            _komut.Parameters.AddWithValue("@id", vergiDilimi.id);
-            _komut.Parameters.AddWithValue("@minMaas", vergiDilimi.minMaas);
-            _komut.Parameters.AddWithValue("@maxMaas", vergiDilimi.maxMaas);
-            _komut.Parameters.AddWithValue("@vergiDilimi", vergiDilimi.vergiDilimi);
-            _baglanti.Close();
+            throw new NotImplementedException();
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace BitirmeOdevi.DataAccess.Concrate.EntityFramework
 {
-    public class EfVergiDilimiDal: EfRepositoryBase<VergiDilimi>, IVergiDilimiDal
+    public class EfVergiDilimiDal: EfRepositoryBase<VergiDilimi, BitirmeOdeviContext>, IVergiDilimiDal
     {
 
     }

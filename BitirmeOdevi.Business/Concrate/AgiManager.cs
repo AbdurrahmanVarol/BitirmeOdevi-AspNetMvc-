@@ -4,6 +4,7 @@ using BitirmeOdevi.Entities.Concrate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,26 +24,34 @@ namespace BitirmeOdevi.Business.Concrate
             _agiDal.Add(agi);
         }
 
-        public void Delete(int id)
+        public void Delete(Agi agi)
         {
             try
             {
-                _agiDal.Delete(id);
+                _agiDal.Delete(agi);
             }
             catch (Exception exception)
             {
-
+                Console.Write(exception);
             }
         }
 
-        public Agi Get(string filter = null)
+        public Agi Get(int id)
         {
-            return _agiDal.Get(filter);
+            return _agiDal.Get(p=>p.agiId==id);
+        }
+        public Agi GetByCondition(string condition)
+        {
+            return _agiDal.Get(p => p.medeniDurum==condition);
+        }
+        public Agi GetByConditionAndChild(string condition,int numberOfChild)
+        {
+            return _agiDal.Get(p => p.medeniDurum==condition && p.cocukSayisi==numberOfChild);
         }
 
-        public List<Agi> GetAll(string filter = null)
+        public List<Agi> GetAll()
         {
-            return _agiDal.GetAll(filter);
+            return _agiDal.GetAll();
         }
 
 

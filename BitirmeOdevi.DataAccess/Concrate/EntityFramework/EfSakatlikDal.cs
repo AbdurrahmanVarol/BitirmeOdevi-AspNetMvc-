@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace BitirmeOdevi.DataAccess.Concrate.EntityFramework
 {
-    public class EfSakatlikDal: EfRepositoryBase<Sakatlik>, ISakatlikDal
+    public class EfSakatlikDal: EfRepositoryBase<Sakatlik, BitirmeOdeviContext>, ISakatlikDal
     {
        
     }

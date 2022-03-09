@@ -12,7 +12,7 @@ using BitirmeOdevi.DataAccess.Concrate.EntityFramework;
 
 namespace BitirmeOdevi.DataAccess.Concrate
 {
-    public class EfAgiDal: EfRepositoryBase<Agi>,IAgiDal
+    public class EfAgiDal: EfRepositoryBase<Agi, BitirmeOdeviContext>, IAgiDal
     {
         
     }

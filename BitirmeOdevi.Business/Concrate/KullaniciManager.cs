@@ -4,6 +4,7 @@ using BitirmeOdevi.Entities.Concrate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,30 +23,38 @@ namespace BitirmeOdevi.Business.Concrate
             _kullaniciDal.Add(kullanici);
         }
 
-        public void Delete(int id)
+        public void Delete(Kullanici kullanici)
         {
             try
             {
-                _kullaniciDal.Delete(id);
+                _kullaniciDal.Delete(kullanici);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
-                
+
             }
         }
 
-        public Kullanici Get(string filter=null)
+        public Kullanici Get(int id)
         {
-            return _kullaniciDal.Get(filter);
+            return _kullaniciDal.Get(p => p.id == id);
+        }
+        public Kullanici GetByUserName(string userName)
+        {
+            return _kullaniciDal.Get(p => p.kullaniciAd == userName);
+        }
+        public Kullanici GetByUserNameAndPassword(string userName, string password)
+        {
+            return _kullaniciDal.Get(p => p.kullaniciAd == userName && p.sifre == password);
         }
 
-        public List<Kullanici> GetAll(string filter=null)
+        public List<Kullanici> GetAll()
         {
-            return _kullaniciDal.GetAll(filter);
+            return _kullaniciDal.GetAll();
         }
 
 
-        
+
         public void Update(Kullanici kullanici)
         {
             _kullaniciDal.Update(kullanici);

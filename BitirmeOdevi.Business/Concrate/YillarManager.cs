@@ -19,7 +19,7 @@ namespace BitirmeOdevi.Business.Concrate
        
         public Yillar Get(int Id)
         {
-            return _yillarDal.Get();
+            return null;
         }
 
        

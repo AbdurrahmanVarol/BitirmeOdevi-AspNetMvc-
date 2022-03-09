@@ -4,6 +4,7 @@ using BitirmeOdevi.Entities.Concrate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,11 +24,11 @@ namespace BitirmeOdevi.Business.Concrate
             _sigortaDal.Add(sigorta);
         }
 
-        public void Delete(int id)
+        public void Delete(Sigorta sigorta)
         {
             try
             {
-                _sigortaDal.Delete(id);
+                _sigortaDal.Delete(sigorta);
             }
             catch (Exception exception)
             {
@@ -35,12 +36,12 @@ namespace BitirmeOdevi.Business.Concrate
             }
         }
 
-        public Sigorta Get(string filter = null)
+        public Sigorta Get(Expression<Func<Sigorta, bool>> filter)
         {
             return _sigortaDal.Get(filter);
         }
 
-        public List<Sigorta> GetAll(string filter = null)
+        public List<Sigorta> GetAll(Expression<Func<Sigorta, bool>> filter = null)
         {
             return _sigortaDal.GetAll(filter);
         }

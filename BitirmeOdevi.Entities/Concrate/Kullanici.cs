@@ -1,6 +1,7 @@
 ﻿using BitirmeOdevi.Entities.Abstract;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace BitirmeOdevi.Entities.Concrate
 {
     public class Kullanici:IEntity
     {
+        [Key]
         public int id  { get; set; }
         public string ad { get; set; }
         public string soyad { get; set; }

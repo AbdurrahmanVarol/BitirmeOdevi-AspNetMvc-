@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace BitirmeOdevi.DataAccess.Concrate.EntityFramework
 {
-    public class EfKisilerDal: EfRepositoryBase<Kisiler>, IKisilerDal
+    public class EfKisilerDal: EfRepositoryBase<Kisiler, BitirmeOdeviContext>, IKisilerDal
     {
         
     }

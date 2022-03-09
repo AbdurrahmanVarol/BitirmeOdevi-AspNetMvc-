@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace BitirmeOdevi.DataAccess.Concrate.EntityFramework
 {
-    public class EfKullaniciDal : EfRepositoryBase<Kullanici>, IKullaniciDal
+    public class EfKullaniciDal : EfRepositoryBase<Kullanici, BitirmeOdeviContext>, IKullaniciDal
     {
        
     }

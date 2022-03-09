@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BitirmeOdevi.DataAccess.Abstract
 {
-    public interface IYillarDal : IEntityRepository<Yillar>
+    public interface IYillarDal 
     {
     }
 }

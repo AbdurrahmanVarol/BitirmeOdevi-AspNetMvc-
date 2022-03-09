@@ -11,7 +11,7 @@ using System.Configuration;
 
 namespace BitirmeOdevi.DataAccess.Concrate.EntityFramework
 {
-    public class EfSigortaDal: EfRepositoryBase<Sigorta>, ISigortaDal
+    public class EfSigortaDal: EfRepositoryBase<Sigorta, BitirmeOdeviContext>, ISigortaDal
     {
 
     }

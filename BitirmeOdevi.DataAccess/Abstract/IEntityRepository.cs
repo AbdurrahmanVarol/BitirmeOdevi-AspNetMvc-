@@ -10,10 +10,10 @@ namespace BitirmeOdevi.DataAccess.Abstract
 {
     public interface IEntityRepository<T> where T : class, IEntity, new()
     {
-        List<T> GetAll(string filter = null);
-        T Get(string filter = null);
+        List<T> GetAll(Expression<Func<T, bool>> filter = null);
+        T Get(Expression<Func<T, bool>> filter);
         void Add(T entity);
-        void Delete(int id);
+        void Delete(T entity);
         void Update(T entity);
     }
 }

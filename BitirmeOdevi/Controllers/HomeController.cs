@@ -16,12 +16,13 @@ namespace BitirmeOdevi.Controllers
 {
     public class HomeController : Controller
     {
+       
         IKullaniciService _kullaniciManager = new KullaniciManager(new EfKullaniciDal());
-        IKisilerService _kisilerManager = new KisilerManager(new KisilerDal());
-        IVergiDİlimiService _vergiDilimiManager = new VergiDilimiManager(new VergiDilimiDal());
-        IAgiService _agiManager = new AgiManager(new AgiDal());
-        ISigortaService _sigortaManager = new SigortaManager(new SigortaDal());
-        ISakatlikService _sakatlikManager = new SakatlikManager(new SakatlikDal());
+        IKisilerService _kisilerManager = new KisilerManager(new EfKisilerDal());
+        IVergiDİlimiService _vergiDilimiManager = new VergiDilimiManager(new EfVergiDilimiDal());
+        IAgiService _agiManager = new AgiManager(new EfAgiDal());
+        ISigortaService _sigortaManager = new SigortaManager(new EfSigortaDal());
+        ISakatlikService _sakatlikManager = new SakatlikManager(new EfSakatlikDal());
         List<string> _aylar = new List<string>();
         IHesapla _hesapla = new Hesapla();
 
@@ -52,7 +53,8 @@ namespace BitirmeOdevi.Controllers
             {
                 List<Kisiler> kisiDatabase = new List<Kisiler>();
                 List<kisiModel> kisiModels = new List<kisiModel>();
-                kisiDatabase = _kisilerManager.GetAll("kullaniciId="+ Request.Cookies["Login"].Value.ToString());
+                int Id = Convert.ToInt32(Request.Cookies["Login"].Value);
+                kisiDatabase = _kisilerManager.GetAllByUserId(Id);
                 
                 foreach (var val in kisiDatabase)
                 {
@@ -102,7 +104,7 @@ namespace BitirmeOdevi.Controllers
             else if (kisiModel.medeniDurum == "Bekar")
                 kisi.agiId = 2;
             else
-                kisi.agiId = _agiManager.Get("medeniDurum='" + kisiModel.medeniDurum + "' and cocukSayisi=" +kisiModel.cocukSayisi.ToString()).agiId;
+                kisi.agiId = _agiManager.GetByConditionAndChild(kisiModel.medeniDurum,kisiModel.cocukSayisi).agiId;
 
             if (kisiModel.id != 0)
                 _kisilerManager.Update(kisi);
@@ -115,8 +117,8 @@ namespace BitirmeOdevi.Controllers
         {
             if (Request.Cookies.AllKeys.Contains("Login"))
             {
-                var kisi = _kisilerManager.Get("kisiId=" + id.ToString());
-                var agi = _agiManager.Get("agiId=" + kisi.agiId.ToString());
+                var kisi = _kisilerManager.Get(id);
+                var agi = _agiManager.Get(kisi.agiId);
 
                 kisiModel kisiModel = new kisiModel()
                 {
@@ -146,16 +148,16 @@ namespace BitirmeOdevi.Controllers
             Kisiler kisi = new Kisiler();
             List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
 
-            kisi = _kisilerManager.Get("kisiId=" + id.ToString());
-            agi = _agiManager.Get("agiId=" + kisi.agiId.ToString()).agiMiktari;
-            vergiMuhafiyeti = _sakatlikManager.Get("sakatlikId=" + kisi.sakatlikId.ToString()).indirim;
+            kisi = _kisilerManager.Get(id);
+            agi = _agiManager.Get(kisi.agiId).agiMiktari;
+            vergiMuhafiyeti = _sakatlikManager.Get(p=>p.sakatlikId==kisi.sakatlikId).indirim;
             
             ayEkle();
 
             foreach (var ay in _aylar)
             {
 
-                vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;                
+                vergi = _vergiDilimiManager.Get(p => p.minMaas <= toplamMaas && p.minMaas > toplamMaas).vergiDilimi;
                 HesaplaModel hesaplaModel = new HesaplaModel();
                 _hesapla.BrüttenNete(hesaplaModel, kisi.maas, vergi, agi, vergiMuhafiyeti, kisi.sigortaId);
                 hesaplaModel.ay = ay;
@@ -174,15 +176,16 @@ namespace BitirmeOdevi.Controllers
             Kisiler kisi = new Kisiler();
             List<HesaplaModel> hesaplaModels = new List<HesaplaModel>();
 
-            kisi = _kisilerManager.Get("kisiId=" + id.ToString());
-            agi = _agiManager.Get("agiId=" + kisi.agiId.ToString()).agiMiktari;
-            vergiMuhafiyeti = _sakatlikManager.Get("sakatlikId=" + kisi.sakatlikId.ToString()).indirim;
+            kisi = _kisilerManager.Get(id);
+            agi = _agiManager.Get(kisi.agiId).agiMiktari;
+            vergiMuhafiyeti = _sakatlikManager.Get(p => p.sakatlikId == kisi.sakatlikId).indirim;
 
             ayEkle();
 
             foreach (var ay in _aylar)
             {
-                vergi = _vergiDilimiManager.Get("minMaas <=" + toplamMaas.ToString() + " and maxMaas > " + toplamMaas.ToString()).vergiDilimi;                
+
+                vergi = _vergiDilimiManager.Get(p => p.minMaas <= toplamMaas && p.minMaas > toplamMaas).vergiDilimi;
                 HesaplaModel hesaplaModel = new HesaplaModel();
                 _hesapla.NettenBrüte(hesaplaModel, kisi.maas, vergi, agi, vergiMuhafiyeti, kisi.sigortaId);
                 hesaplaModel.ay = ay;
@@ -194,7 +197,7 @@ namespace BitirmeOdevi.Controllers
         }
         public ActionResult Sil(int id)
         {
-            _kisilerManager.Delete(id);
+            _kisilerManager.Delete(_kisilerManager.Get(id));
             return RedirectToAction("Index");
         }
     }

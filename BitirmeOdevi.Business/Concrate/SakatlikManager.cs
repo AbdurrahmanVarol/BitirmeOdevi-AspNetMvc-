@@ -4,6 +4,7 @@ using BitirmeOdevi.Entities.Concrate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,11 +24,11 @@ namespace BitirmeOdevi.Business.Concrate
             _sakatlikDal.Add(sakatlik);
         }
 
-        public void Delete(int id)
+        public void Delete(Sakatlik sakatlik)
         {
             try
             {
-                _sakatlikDal.Delete(id);
+                _sakatlikDal.Delete(sakatlik);
             }
             catch (Exception exception)
             {
@@ -35,12 +36,12 @@ namespace BitirmeOdevi.Business.Concrate
             }
         }
 
-        public Sakatlik Get(string filter = null)
+        public Sakatlik Get(Expression<Func<Sakatlik, bool>> filter)
         {
             return _sakatlikDal.Get(filter);
         }
 
-        public List<Sakatlik> GetAll(string filter = null)
+        public List<Sakatlik> GetAll(Expression<Func<Sakatlik, bool>> filter = null)
         {
             return _sakatlikDal.GetAll(filter);
         }

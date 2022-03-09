@@ -13,6 +13,5 @@ namespace BitirmeOdevi.Entities.Concrate
         public string sakatlikDerece { get; set; }
         public double indirim { get; set; }
         public int yil { get; set; }
-        public double agiMiktari { get; set; }
     }
 }

@@ -1,6 +1,8 @@
-﻿using BitirmeOdevi.Business.Concrate;
+﻿using BitirmeOdevi.Business.Abstract;
+using BitirmeOdevi.Business.Concrate;
 using BitirmeOdevi.DataAccess.Abstract;
 using BitirmeOdevi.DataAccess.Concrate;
+using BitirmeOdevi.DataAccess.Concrate.EntityFramework;
 using BitirmeOdevi.Entities;
 using BitirmeOdevi.Entities.Concrate;
 using BitirmeOdevi.Models;
@@ -14,7 +16,7 @@ namespace BitirmeOdevi.Controllers
     public class SecurityController : Controller
     {
         // GET: Login
-        KullaniciManager _kullaniciManager = new KullaniciManager(new KullaniciDal());
+        IKullaniciService _kullaniciManager = new KullaniciManager(new EfKullaniciDal());
         public Kullanici login;
         [HttpGet]
         public ActionResult Login()
@@ -25,10 +27,10 @@ namespace BitirmeOdevi.Controllers
         [HttpPost]
         public ActionResult Login(User user)
         {
-           
+
             // cookieVisitor.Expires = DateTime.Now.AddDays(2);
-           
-            var kullanici = _kullaniciManager.Get("kullaniciAd='" + user.userName + "' and sifre='" + user.password + "'");
+
+            var kullanici = _kullaniciManager.GetByUserNameAndPassword(user.userName, user.password);
             if (kullanici != null)
             {
                 if (user.userName == kullanici.kullaniciAd && user.password == kullanici.sifre)
@@ -61,8 +63,8 @@ namespace BitirmeOdevi.Controllers
         [HttpPost]
         public ActionResult Register(userModel userModel)
         {
-            string varMi = _kullaniciManager.Get("kullaniciAd ='" + userModel.kullaniciAd + "'").kullaniciAd;
-            if(varMi == null)
+            var varMi = _kullaniciManager.GetByUserName(userModel.kullaniciAd);
+            if (varMi == null)
             {
                 if (userModel.sifre == userModel.sifreTekrar)
                 {
